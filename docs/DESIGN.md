@@ -42,10 +42,35 @@ discussion).
 
 | Pillar | Source | What it gives | Access |
 |---|---|---|---|
-| Emissions | UK ETS registry; SECR disclosures in annual reports; CDP responses | Verified absolute emissions; intensity | ETS: open data. SECR: unstructured (defer full extraction). CDP: scores public per company, bulk data licensed — **license audit task** |
-| Trajectory | SBTi target dashboard; company net-zero commitments | Has a real target? Validated? On track? | Public, scrapeable; ToS check needed |
+| Emissions | UK ETS registry; SECR disclosures in annual reports; CDP responses | Verified absolute emissions; intensity | ETS: open data. SECR: unstructured (defer full extraction). CDP: **audited 2026-07-06 — restricted**, link-only in v1 (see below) |
+| Trajectory | SBTi target dashboard; company net-zero commitments | Has a real target? Validated? On track? | SBTi: **audited — citation-with-attribution OK, composite use needs permission**; signals-only in v1 (see below) |
 | Violations | EA enforcement/prosecution records; Ofwat penalties; sewage Event Duration Monitoring data | Fines £, incident counts, discharge hours | Open government data (OGL) — the strongest, most UK-specific pillar |
-| Obstruction | InfluenceMap climate lobbying grades | Lobbying for/against climate policy | Public grades; attribution/licensing check needed |
+| Obstruction | InfluenceMap climate lobbying grades | Lobbying for/against climate policy | InfluenceMap: **audited — citation-with-attribution OK, composite use restricted**; signals-only in v1 (see below) |
+
+### License audit outcome (2026-07-06, issue #9)
+
+None of CDP / SBTi / InfluenceMap may be bulk-extracted or folded into our
+composite score without written permission; all three permit per-company,
+attributed, linked citation while the site is non-commercial. Beyond the ToS
+(all three are English-law entities), UK sui generis database right catches
+"repeated and systematic extraction of insubstantial parts" — one grade per
+company across the whole cohort reconstitutes a substantial part. Full
+findings + permission-email drafts: issue #9.
+
+Consequences, baked into the plan below:
+
+- **Composite score = open-gov pillars only** (emissions from UK ETS,
+  violations from EA/Ofwat/EDM). Trajectory and obstruction leave the
+  composite; the methodology page states this and why.
+- **Company pages show the three as attributed third-party signals**, each a
+  single fact with source credit + deep link (SBTi status, InfluenceMap band;
+  CDP link-only — its ToS restricts even score display). This mirrors the
+  established press-citation pattern.
+- James may send the drafted permission emails (issue #9); a yes from SBTi or
+  InfluenceMap re-adds that pillar to the composite as a versioned formula
+  change. "Ads later" must not go live before those permissions land.
+- Follow-up lead: CDP Open Data Portal (data.cdp.net) has separate,
+  unaudited terms — possibly a usable subset.
 
 **Do-gooder side** is driven by *verified delivery*, not pledges: validated
 science-based targets **plus** actual year-on-year reductions, renewables
@@ -110,14 +135,16 @@ oke-fleet deploy). App-specific:
 - **PR 2**: dataset schemas + ingestion scripts for the two open-data pillars
   (ETS emissions, EA/Ofwat violations incl. sewage EDM) + ScoreEngine with
   those pillars + golden tests.
-- **PR 3**: trajectory + obstruction pillars (subject to license audit) +
-  composite score.
+- **PR 3**: third-party signals (SBTi status, InfluenceMap band, CDP link —
+  attributed display-only, per audit) + composite score over the open-gov
+  pillars.
 - **PR 4**: frontend — leaderboards, company page, methodology page.
 - Then: oke-fleet deploy PR.
 
-**Before PR 2**: license/ToS audit of CDP, SBTi, InfluenceMap (the open-gov
-sources are fine). If any are restricted, v1 ships on ETS + violations alone
-— still a defensible, fully-open-data product.
+**Before PR 2**: ~~license/ToS audit of CDP, SBTi, InfluenceMap~~ **done
+2026-07-06 (issue #9)** — all three restricted for composite/bulk use, so v1
+scores on ETS + violations alone (still a defensible, fully-open-data
+product) with the three as display-only signals.
 
 ## Open questions for James (non-blocking, answer on #1)
 
