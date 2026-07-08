@@ -1,0 +1,18 @@
+{
+  "worstOffenders": [
+    { "rank": 1, "id": "thameswell-water", "name": "Thameswell Water", "score": 28.16, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 67.03, "weight": 0.4 }, { "pillar": "Violations", "value": 2.24, "weight": 0.6 } ] },
+    { "rank": 2, "id": "northgale-energy", "name": "Northgale Energy", "score": 36.75, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 17.38, "weight": 0.4 }, { "pillar": "Violations", "value": 49.66, "weight": 0.6 } ] },
+    { "rank": 3, "id": "ferrous-holdings", "name": "Ferrous Holdings", "score": 63.28, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 8.21, "weight": 0.4 }, { "pillar": "Violations", "value": 100, "weight": 0.6 } ] },
+    { "rank": 4, "id": "middlemarch-foods", "name": "Middlemarch Foods", "score": 71.07, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 54.88, "weight": 0.4 }, { "pillar": "Violations", "value": 81.87, "weight": 0.6 } ] },
+    { "rank": 5, "id": "verdigris-renewables", "name": "Verdigris Renewables", "score": 98.05, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 95.12, "weight": 0.4 }, { "pillar": "Violations", "value": 100, "weight": 0.6 } ] },
+    { "rank": 6, "id": "opaque-industries", "name": "Opaque Industries plc", "score": null, "coveredPillars": 0, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": null, "weight": 0.4 }, { "pillar": "Violations", "value": null, "weight": 0.6 } ] }
+  ],
+  "topPerformers": [
+    { "rank": 1, "id": "verdigris-renewables", "name": "Verdigris Renewables", "score": 98.05, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 95.12, "weight": 0.4 }, { "pillar": "Violations", "value": 100, "weight": 0.6 } ] },
+    { "rank": 2, "id": "middlemarch-foods", "name": "Middlemarch Foods", "score": 71.07, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 54.88, "weight": 0.4 }, { "pillar": "Violations", "value": 81.87, "weight": 0.6 } ] },
+    { "rank": 3, "id": "ferrous-holdings", "name": "Ferrous Holdings", "score": 63.28, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 8.21, "weight": 0.4 }, { "pillar": "Violations", "value": 100, "weight": 0.6 } ] },
+    { "rank": 4, "id": "northgale-energy", "name": "Northgale Energy", "score": 36.75, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 17.38, "weight": 0.4 }, { "pillar": "Violations", "value": 49.66, "weight": 0.6 } ] },
+    { "rank": 5, "id": "thameswell-water", "name": "Thameswell Water", "score": 28.16, "coveredPillars": 2, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": 67.03, "weight": 0.4 }, { "pillar": "Violations", "value": 2.24, "weight": 0.6 } ] },
+    { "rank": 6, "id": "opaque-industries", "name": "Opaque Industries plc", "score": null, "coveredPillars": 0, "totalPillars": 2, "pillars": [ { "pillar": "Emissions", "value": null, "weight": 0.4 }, { "pillar": "Violations", "value": null, "weight": 0.6 } ] }
+  ]
+}
