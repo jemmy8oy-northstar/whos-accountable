@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Balenthiran.WhosAccountable.Abstractions;
-using Balenthiran.WhosAccountable.DomainModels.Models;
 
 namespace Balenthiran.WhosAccountable.Services.Datasets;
 

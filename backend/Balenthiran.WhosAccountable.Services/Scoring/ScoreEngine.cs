@@ -1,5 +1,4 @@
 using Balenthiran.WhosAccountable.Abstractions;
-using Balenthiran.WhosAccountable.DomainModels.Models;
 
 namespace Balenthiran.WhosAccountable.Services.Scoring;
 

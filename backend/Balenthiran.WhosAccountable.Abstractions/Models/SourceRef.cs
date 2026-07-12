@@ -1,4 +1,4 @@
-namespace Balenthiran.WhosAccountable.DomainModels.Models;
+namespace Balenthiran.WhosAccountable.Abstractions;
 
 /// <summary>
 /// Provenance stamped on every input record: which published dataset it came from,

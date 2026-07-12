@@ -1,4 +1,4 @@
-namespace Balenthiran.WhosAccountable.DomainModels.Models;
+namespace Balenthiran.WhosAccountable.Abstractions;
 
 /// <summary>
 /// A single recorded environmental enforcement event against a company, from an

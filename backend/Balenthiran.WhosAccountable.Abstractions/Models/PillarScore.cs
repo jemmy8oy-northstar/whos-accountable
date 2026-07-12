@@ -1,4 +1,4 @@
-namespace Balenthiran.WhosAccountable.DomainModels.Models;
+namespace Balenthiran.WhosAccountable.Abstractions;
 
 /// <summary>
 /// The outcome of scoring one pillar for one company. <see cref="Value"/> is null when

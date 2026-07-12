@@ -1,5 +1,3 @@
-using Balenthiran.WhosAccountable.DomainModels.Models;
-
 namespace Balenthiran.WhosAccountable.Abstractions;
 
 /// <summary>

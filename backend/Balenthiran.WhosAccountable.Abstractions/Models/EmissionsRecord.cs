@@ -1,4 +1,4 @@
-namespace Balenthiran.WhosAccountable.DomainModels.Models;
+namespace Balenthiran.WhosAccountable.Abstractions;
 
 /// <summary>
 /// One company-year of disclosed greenhouse-gas emissions from a published source

@@ -1,4 +1,4 @@
-namespace Balenthiran.WhosAccountable.Services.Scoring;
+namespace Balenthiran.WhosAccountable.Abstractions;
 
 /// <summary>
 /// Every published number the v1 scoring formula depends on, in one place, as named
@@ -7,6 +7,11 @@ namespace Balenthiran.WhosAccountable.Services.Scoring;
 /// golden-file test turns that diff into a visible leaderboard change). These are v1
 /// values chosen for a sensible spread, not calibrated against the full cohort — that
 /// calibration is a later, versioned change once real datasets land.
+///
+/// These live in Abstractions, not Services: they are the published scoring methodology
+/// (a domain contract the future methodology page / read API will surface), not an
+/// implementation detail of one service. They are fixed constants, not tunable runtime
+/// config, so they are not in appsettings — changing them must be a reviewed code diff.
 /// </summary>
 public static class ScoringConstants
 {

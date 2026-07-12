@@ -1,4 +1,4 @@
-namespace Balenthiran.WhosAccountable.DomainModels.Models;
+namespace Balenthiran.WhosAccountable.Abstractions;
 
 /// <summary>
 /// A company in the versioned cohort (DESIGN.md: a fixed, in-repo list of ~150

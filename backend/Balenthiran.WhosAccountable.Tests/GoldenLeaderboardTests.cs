@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Balenthiran.WhosAccountable.DomainModels.Models;
+using Balenthiran.WhosAccountable.Abstractions;
 using Balenthiran.WhosAccountable.Services.Datasets;
 using Balenthiran.WhosAccountable.Services.Scoring;
 

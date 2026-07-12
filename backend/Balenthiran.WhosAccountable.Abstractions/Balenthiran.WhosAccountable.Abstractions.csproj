@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../Balenthiran.WhosAccountable.DomainModels/Balenthiran.WhosAccountable.DomainModels.csproj" />
-  </ItemGroup>
-
 </Project>
