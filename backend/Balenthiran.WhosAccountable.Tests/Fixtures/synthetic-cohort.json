@@ -1,0 +1,24 @@
+{
+  "_comment": "SYNTHETIC test fixture — every company here is FICTIONAL. It exists only to pin the scoring engine's behaviour in the golden-file test and carries zero real-world figures, so there is no risk of publishing a wrong number about a real company. Real, open-government datasets land in a later PR (see DESIGN.md / whos-accountable#1). The numbers are chosen to exercise each engine path: heavy violations, high emissions intensity, a clean top performer, emissions-only (no enforcement) companies, a small-fine mid-tier, and a total coverage gap.",
+  "companies": [
+    { "id": "thameswell-water", "name": "Thameswell Water", "sector": "WaterUtilities", "cohortTags": ["synthetic", "utilities"] },
+    { "id": "northgale-energy", "name": "Northgale Energy", "sector": "EnergyUtilities", "cohortTags": ["synthetic", "utilities"] },
+    { "id": "verdigris-renewables", "name": "Verdigris Renewables", "sector": "EnergyUtilities", "cohortTags": ["synthetic"] },
+    { "id": "ferrous-holdings", "name": "Ferrous Holdings", "sector": "Mining", "cohortTags": ["synthetic"] },
+    { "id": "middlemarch-foods", "name": "Middlemarch Foods", "sector": "ConsumerGoods", "cohortTags": ["synthetic"] },
+    { "id": "opaque-industries", "name": "Opaque Industries plc", "sector": "Industrials", "cohortTags": ["synthetic"] }
+  ],
+  "emissions": [
+    { "companyId": "thameswell-water", "year": 2024, "absoluteTco2e": 240000, "intensityTco2ePerGbpMillion": 80, "source": { "kind": "UkEtsRegistry", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ets/thameswell-2024" } },
+    { "companyId": "thameswell-water", "year": 2022, "absoluteTco2e": 260000, "intensityTco2ePerGbpMillion": 95, "source": { "kind": "UkEtsRegistry", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ets/thameswell-2022" } },
+    { "companyId": "northgale-energy", "year": 2024, "absoluteTco2e": 1800000, "intensityTco2ePerGbpMillion": 350, "source": { "kind": "UkEtsRegistry", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ets/northgale-2024" } },
+    { "companyId": "verdigris-renewables", "year": 2024, "absoluteTco2e": 5000, "intensityTco2ePerGbpMillion": 10, "source": { "kind": "UkEtsRegistry", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ets/verdigris-2024" } },
+    { "companyId": "ferrous-holdings", "year": 2024, "absoluteTco2e": 900000, "intensityTco2ePerGbpMillion": 500, "source": { "kind": "UkEtsRegistry", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ets/ferrous-2024" } },
+    { "companyId": "middlemarch-foods", "year": 2024, "absoluteTco2e": 60000, "intensityTco2ePerGbpMillion": 120, "source": { "kind": "UkEtsRegistry", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ets/middlemarch-2024" } }
+  ],
+  "violations": [
+    { "companyId": "thameswell-water", "year": 2024, "fineGbp": 5000000, "incidentCount": 4, "dischargeHours": 12000, "description": "Synthetic: repeated untreated storm-overflow discharges.", "source": { "kind": "EventDurationMonitoring", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/edm/thameswell-2024" } },
+    { "companyId": "northgale-energy", "year": 2023, "fineGbp": 2000000, "incidentCount": 3, "dischargeHours": null, "description": "Synthetic: permit-breach penalties.", "source": { "kind": "EnvironmentAgency", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ea/northgale-2023" } },
+    { "companyId": "middlemarch-foods", "year": 2023, "fineGbp": 500000, "incidentCount": 1, "dischargeHours": null, "description": "Synthetic: single effluent-handling breach.", "source": { "kind": "EnvironmentAgency", "version": 1, "retrievedOn": "2026-01-15", "url": "https://example.invalid/synthetic/ea/middlemarch-2023" } }
+  ]
+}

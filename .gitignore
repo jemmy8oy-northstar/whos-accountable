@@ -1,0 +1,21 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+# Some dotnet tooling on non-Windows can emit a build-output dir whose name
+# contains a literal backslash (e.g. "bin\Debug"), which the "bin/" rule above
+# does not match. Ignore those mangled dirs and the Roslyn design-time build host.
+bin\\Debug/
+obj\\Debug/
+**/BuildHost-*/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
