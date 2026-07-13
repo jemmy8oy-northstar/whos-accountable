@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
 using Balenthiran.WhosAccountable.Services.Datasets;
 using Balenthiran.WhosAccountable.Services.Scoring;
 
@@ -53,7 +54,7 @@ public sealed class GoldenLeaderboardTests
         Assert.Equal(goldenJson, actualJson);
     }
 
-    private static LeaderboardRow Project(ScoredCompany scored) => new(
+    private static LeaderboardRow Project(IScoredCompany scored) => new(
         scored.Rank,
         scored.Company.Id,
         scored.Company.Name,

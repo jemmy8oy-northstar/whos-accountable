@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Balenthiran.WhosAccountable.Abstractions/Balenthiran.WhosAccountable.Abstractions.csproj" />
+  <Project Path="Balenthiran.WhosAccountable.DomainModels/Balenthiran.WhosAccountable.DomainModels.csproj" />
   <Project Path="Balenthiran.WhosAccountable.Services/Balenthiran.WhosAccountable.Services.csproj" />
   <Project Path="Balenthiran.WhosAccountable.Tests/Balenthiran.WhosAccountable.Tests.csproj" />
 </Solution>

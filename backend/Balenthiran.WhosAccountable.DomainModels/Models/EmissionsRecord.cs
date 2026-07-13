@@ -1,4 +1,6 @@
-namespace Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+
+namespace Balenthiran.WhosAccountable.DomainModels.Models;
 
 /// <summary>
 /// One company-year of disclosed greenhouse-gas emissions from a published source
@@ -19,4 +21,7 @@ public sealed record EmissionsRecord(
     int Year,
     double AbsoluteTco2e,
     double? IntensityTco2ePerGbpMillion,
-    SourceRef Source);
+    SourceRef Source) : IEmissionsRecord
+{
+    ISourceRef IEmissionsRecord.Source => Source;
+}

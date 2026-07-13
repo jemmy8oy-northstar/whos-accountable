@@ -1,4 +1,6 @@
-namespace Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+
+namespace Balenthiran.WhosAccountable.DomainModels.Models;
 
 /// <summary>
 /// A company's overall environmental score, 0–100, computed as the weight-renormalised
@@ -13,11 +15,13 @@ namespace Balenthiran.WhosAccountable.Abstractions;
 public sealed record CompositeScore(
     string CompanyId,
     double? Value,
-    IReadOnlyList<PillarScore> Pillars)
+    IReadOnlyList<PillarScore> Pillars) : ICompositeScore
 {
     /// <summary>Number of pillars that had data and contributed to <see cref="Value"/>.</summary>
     public int CoveredPillars => Pillars.Count(p => p.Contributed);
 
     /// <summary>Total number of composite pillars considered (covered or unknown).</summary>
     public int TotalPillars => Pillars.Count;
+
+    IReadOnlyList<IPillarScore> ICompositeScore.Pillars => Pillars;
 }

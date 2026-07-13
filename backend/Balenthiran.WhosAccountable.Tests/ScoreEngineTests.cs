@@ -1,4 +1,5 @@
 using Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
 using Balenthiran.WhosAccountable.Services.Scoring;
 
 namespace Balenthiran.WhosAccountable.Tests;
@@ -161,6 +162,6 @@ public sealed class ScoreEngineTests
         Assert.Throws<ArgumentNullException>(() => _engine.ScoreCompany(company, null!));
     }
 
-    private static CohortDataset LoadedSyntheticDataset() =>
+    private static ICohortDataset LoadedSyntheticDataset() =>
         new Services.Datasets.DatasetLoader().Load(Fixtures.ReadText("synthetic-cohort.json"));
 }

@@ -1,13 +1,17 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+using Balenthiran.WhosAccountable.DomainModels.Models;
 
 namespace Balenthiran.WhosAccountable.Services.Datasets;
 
 /// <summary>
-/// Parses the in-repo "data-as-code" JSON into a <see cref="CohortDataset"/>. Enums are
-/// read by name (so the JSON is legible in diffs) and property matching is
-/// case-insensitive. The engine never touches JSON directly — everything flows through here.
+/// Parses the in-repo "data-as-code" JSON into a <see cref="ICohortDataset"/>. It deserialises
+/// into the concrete <see cref="CohortDataset"/> record and hands back the interface, so the JSON
+/// shape stays an implementation detail behind the abstraction. Enums are read by name (so the
+/// JSON is legible in diffs) and property matching is case-insensitive. The engine never touches
+/// JSON directly — everything flows through here.
 /// </summary>
 public sealed class DatasetLoader : IDatasetLoader
 {
@@ -17,7 +21,7 @@ public sealed class DatasetLoader : IDatasetLoader
         Converters = { new JsonStringEnumConverter() },
     };
 
-    public CohortDataset Load(string json)
+    public ICohortDataset Load(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
             throw new InvalidOperationException("Dataset JSON is empty.");

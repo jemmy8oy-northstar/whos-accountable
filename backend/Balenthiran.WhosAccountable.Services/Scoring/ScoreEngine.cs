@@ -1,12 +1,16 @@
 using Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+using Balenthiran.WhosAccountable.DomainModels.Models;
 
 namespace Balenthiran.WhosAccountable.Services.Scoring;
 
 /// <summary>
 /// The v1 environmental scoring engine — a pure function from a versioned
-/// <see cref="CohortDataset"/> to scores. Only the two open-government pillars feed the
+/// <see cref="ICohortDataset"/> to scores. Only the two open-government pillars feed the
 /// composite (emissions from UK ETS, violations from EA/Ofwat/EDM); the licence-restricted
 /// signals (SBTi, InfluenceMap, CDP) are deliberately absent here (DESIGN.md / issue #9).
+/// It consumes and returns only interfaces (nothing concrete leaks past the DI seam) but
+/// constructs concrete domain records internally.
 ///
 /// Two rules from the design shape everything:
 /// <list type="bullet">
@@ -20,7 +24,7 @@ namespace Balenthiran.WhosAccountable.Services.Scoring;
 /// </summary>
 public sealed class ScoreEngine : IScoreEngine
 {
-    public CompositeScore ScoreCompany(Company company, CohortDataset dataset)
+    public ICompositeScore ScoreCompany(ICompany company, ICohortDataset dataset)
     {
         ArgumentNullException.ThrowIfNull(company);
         ArgumentNullException.ThrowIfNull(dataset);
@@ -41,7 +45,7 @@ public sealed class ScoreEngine : IScoreEngine
         return new CompositeScore(company.Id, Composite(pillars), pillars);
     }
 
-    public IReadOnlyList<ScoredCompany> BuildLeaderboard(CohortDataset dataset, LeaderboardDirection direction)
+    public IReadOnlyList<IScoredCompany> BuildLeaderboard(ICohortDataset dataset, LeaderboardDirection direction)
     {
         ArgumentNullException.ThrowIfNull(dataset);
 
@@ -51,7 +55,7 @@ public sealed class ScoreEngine : IScoreEngine
             .Select(c => (Company: c, Score: ScoreCompany(c, dataset)))
             .ToList();
 
-        IEnumerable<(Company Company, CompositeScore Score)> ordered = direction switch
+        IEnumerable<(ICompany Company, ICompositeScore Score)> ordered = direction switch
         {
             LeaderboardDirection.TopPerformers => scored
                 .OrderByDescending(x => x.Score.Value.HasValue)
@@ -74,7 +78,7 @@ public sealed class ScoreEngine : IScoreEngine
     /// revenue). Absolute tonnage is not comparable across companies of different size,
     /// so a company that discloses tonnage but no derivable intensity is left unknown.
     /// </summary>
-    private static PillarScore ScoreEmissions(IReadOnlyList<EmissionsRecord> records)
+    private static PillarScore ScoreEmissions(IReadOnlyList<IEmissionsRecord> records)
     {
         var latest = records
             .Where(r => r.IntensityTco2ePerGbpMillion is > 0)
@@ -100,7 +104,7 @@ public sealed class ScoreEngine : IScoreEngine
     /// hold data for the company (<paramref name="companyHasAnyData"/>): a company we hold
     /// nothing on is a coverage gap, left unknown rather than crowned by its own absence.
     /// </summary>
-    private static PillarScore ScoreViolations(IReadOnlyList<ViolationRecord> records, bool companyHasAnyData)
+    private static PillarScore ScoreViolations(IReadOnlyList<IViolationRecord> records, bool companyHasAnyData)
     {
         if (records.Count == 0)
         {

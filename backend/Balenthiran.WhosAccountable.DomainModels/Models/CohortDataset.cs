@@ -1,4 +1,6 @@
-namespace Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+
+namespace Balenthiran.WhosAccountable.DomainModels.Models;
 
 /// <summary>
 /// The full versioned input to the scoring engine: the cohort of companies plus every
@@ -12,9 +14,13 @@ namespace Balenthiran.WhosAccountable.Abstractions;
 public sealed record CohortDataset(
     IReadOnlyList<Company> Companies,
     IReadOnlyList<EmissionsRecord> Emissions,
-    IReadOnlyList<ViolationRecord> Violations)
+    IReadOnlyList<ViolationRecord> Violations) : ICohortDataset
 {
     public IReadOnlyList<Company> Companies { get; init; } = Companies ?? [];
     public IReadOnlyList<EmissionsRecord> Emissions { get; init; } = Emissions ?? [];
     public IReadOnlyList<ViolationRecord> Violations { get; init; } = Violations ?? [];
+
+    IReadOnlyList<ICompany> ICohortDataset.Companies => Companies;
+    IReadOnlyList<IEmissionsRecord> ICohortDataset.Emissions => Emissions;
+    IReadOnlyList<IViolationRecord> ICohortDataset.Violations => Violations;
 }

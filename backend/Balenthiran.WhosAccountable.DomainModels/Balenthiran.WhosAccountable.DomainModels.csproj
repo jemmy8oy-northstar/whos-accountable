@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../Balenthiran.WhosAccountable.Abstractions/Balenthiran.WhosAccountable.Abstractions.csproj" />
-    <ProjectReference Include="../Balenthiran.WhosAccountable.DomainModels/Balenthiran.WhosAccountable.DomainModels.csproj" />
   </ItemGroup>
 
 </Project>

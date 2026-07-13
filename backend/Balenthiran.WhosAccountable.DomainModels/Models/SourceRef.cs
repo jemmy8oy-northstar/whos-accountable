@@ -1,4 +1,7 @@
-namespace Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+
+namespace Balenthiran.WhosAccountable.DomainModels.Models;
 
 /// <summary>
 /// Provenance stamped on every input record: which published dataset it came from,
@@ -14,4 +17,4 @@ public sealed record SourceRef(
     SourceKind Kind,
     int Version,
     DateOnly RetrievedOn,
-    string Url);
+    string Url) : ISourceRef;

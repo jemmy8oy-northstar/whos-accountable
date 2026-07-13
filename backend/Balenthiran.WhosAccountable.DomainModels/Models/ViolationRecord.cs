@@ -1,10 +1,12 @@
-namespace Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+
+namespace Balenthiran.WhosAccountable.DomainModels.Models;
 
 /// <summary>
 /// A single recorded environmental enforcement event against a company, from an
 /// open-government source (Environment Agency, Ofwat, or Event Duration Monitoring).
 /// This is the strongest, most UK-specific pillar (DESIGN.md). Each event carries its
-/// own <see cref="SourceRef"/> and a human-readable <see cref="Description"/> so the
+/// own <see cref="Source"/> and a human-readable <see cref="Description"/> so the
 /// company page can cite it directly.
 /// </summary>
 /// <param name="CompanyId">Cohort company this event is attributed to.</param>
@@ -21,7 +23,9 @@ public sealed record ViolationRecord(
     int IncidentCount,
     double? DischargeHours,
     string Description,
-    SourceRef Source)
+    SourceRef Source) : IViolationRecord
 {
     public int IncidentCount { get; init; } = IncidentCount <= 0 ? 1 : IncidentCount;
+
+    ISourceRef IViolationRecord.Source => Source;
 }

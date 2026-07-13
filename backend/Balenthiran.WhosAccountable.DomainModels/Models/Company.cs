@@ -1,4 +1,7 @@
-namespace Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+
+namespace Balenthiran.WhosAccountable.DomainModels.Models;
 
 /// <summary>
 /// A company in the versioned cohort (DESIGN.md: a fixed, in-repo list of ~150
@@ -13,7 +16,7 @@ public sealed record Company(
     Sector Sector,
     IReadOnlyList<string> CohortTags,
     string? Lei = null,
-    string? CompaniesHouseNumber = null)
+    string? CompaniesHouseNumber = null) : ICompany
 {
     public IReadOnlyList<string> CohortTags { get; init; } = CohortTags ?? [];
 }

@@ -1,4 +1,7 @@
-namespace Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions;
+using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+
+namespace Balenthiran.WhosAccountable.DomainModels.Models;
 
 /// <summary>
 /// The outcome of scoring one pillar for one company. <see cref="Value"/> is null when
@@ -16,7 +19,7 @@ public sealed record PillarScore(
     Pillar Pillar,
     double? Value,
     double Weight,
-    string? Note = null)
+    string? Note = null) : IPillarScore
 {
     /// <summary>True when this pillar had data and fed the composite.</summary>
     public bool Contributed => Value.HasValue;
