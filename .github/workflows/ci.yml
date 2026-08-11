@@ -1,16 +1,25 @@
 name: CI
 
+# Runs on every pull request, into any branch — so a feature -> dev merge is
+# gated by the same suite that gates a dev -> main promotion.
+#
+# Job ids double as the required status-check contexts named in the branch
+# ruleset — rename one and that required check hangs forever.
+#
+# There is deliberately no `frontend` or `e2e` job: this repo is backend-only.
+# The template's frontend job ran `npm ci` inside a ./frontend directory that
+# has never existed here, so CI failed on every run from the initial commit
+# until now. Add those jobs back in the PR that adds the frontend.
 on:
   pull_request:
     branches: ["**"]
 
-# Public repos: ubuntu-latest runs are unlimited — keep this workflow as-is.
-# Private repos: runs count against the 2,000 free minutes/month on GitHub Free.
-# If that's a concern, delete this file or disable it in Settings → Actions → General.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   backend:
-    name: Build backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,23 +35,9 @@ jobs:
       - name: Build
         run: dotnet build ./backend --no-restore --configuration Release
 
-  frontend:
-    name: Build frontend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install
-        run: npm ci
-        working-directory: ./frontend
-
-      - name: Build
-        run: npm run build
-        working-directory: ./frontend
+      - name: Test
+        run: >
+          dotnet test ./backend
+          --no-build
+          --configuration Release
+          --verbosity normal
