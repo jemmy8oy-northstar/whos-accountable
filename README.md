@@ -140,9 +140,20 @@ Splitting the required check onto a `main`-only ruleset removes the dead wait wi
 anything: `main` still cannot be reached except by a PR from `dev`, and `dev` still cannot be
 deleted, force-pushed, or written to outside a PR.
 
+## There is no deploy workflow, on purpose
+
+This repo has no `docker-build-push.yml`. The copy inherited from `web-template` built a
+`./frontend` and bumped a helm chart, and this repo has neither — only `backend/` and `docs/`. It
+ran once, on the initial commit, failed in 41 seconds, and then sat as a permanent red X that
+nobody could act on. It was deleted rather than fixed because there is nothing here to deploy yet.
+
+When a frontend and a chart exist, take the workflow back from `web-template` along with the
+secrets and variables below, which are still what it will need.
+
 ## Required Secrets and Variables
 
-For the Docker build workflow to function, configure the following in **Settings → Secrets and variables**:
+For the Docker build workflow to function **once it returns**, configure the following in
+**Settings → Secrets and variables**:
 
 | Type | Name | Value |
 |------|------|-------|
