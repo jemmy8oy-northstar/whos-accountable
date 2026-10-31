@@ -6,10 +6,8 @@ name: CI
 # Job ids double as the required status-check contexts named in the branch
 # ruleset — rename one and that required check hangs forever.
 #
-# There is deliberately no `frontend` or `e2e` job: this repo is backend-only.
-# The template's frontend job ran `npm ci` inside a ./frontend directory that
-# has never existed here, so CI failed on every run from the initial commit
-# until now. Add those jobs back in the PR that adds the frontend.
+# The `frontend` job came back with the leaderboard frontend (BEH-LEADER-1/2).
+# There is still no `e2e` job: the frontend has no Playwright suite yet.
 on:
   pull_request:
     branches: ["**"]
@@ -41,3 +39,31 @@ jobs:
           --no-build
           --configuration Release
           --verbosity normal
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Lint
+        run: npm run lint
+        working-directory: ./frontend
+
+      - name: Build
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: Test
+        run: npm run test
+        working-directory: ./frontend
