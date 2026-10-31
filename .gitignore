@@ -11,6 +11,10 @@ bin\\Debug/
 obj\\Debug/
 **/BuildHost-*/
 
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
 # OS
 .DS_Store
 Thumbs.db

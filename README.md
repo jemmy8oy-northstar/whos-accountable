@@ -2,6 +2,22 @@
 
 A GitHub repository template for full-stack .NET + Node.js projects with CI, Docker builds, GitOps, and Claude Code integration pre-configured.
 
+## Run locally
+
+Two terminals. The backend serves the read-only API on http://localhost:5268; the Vite dev server
+proxies `/api` to it.
+
+```
+dotnet run --project backend/Balenthiran.WhosAccountable.WebApi
+```
+
+```
+npm --prefix frontend install
+npm --prefix frontend run dev
+```
+
+Checks: `npm --prefix frontend run lint`, `run build`, `test`.
+
 ## Creating a New Project From This Template
 
 Run the following command to scaffold a new project:
