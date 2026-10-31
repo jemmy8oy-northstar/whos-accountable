@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Balenthiran.WhosAccountable.Services/Balenthiran.WhosAccountable.Services.csproj" />
+    <ProjectReference Include="../Balenthiran.WhosAccountable.Abstractions/Balenthiran.WhosAccountable.Abstractions.csproj" />
+    <ProjectReference Include="../Balenthiran.WhosAccountable.DomainModels/Balenthiran.WhosAccountable.DomainModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The committed real cohort travels with the app, so run, test and publish all find it at Data/. -->
+    <Content Include="../../data/cohort-v1.json" Link="Data/cohort-v1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
