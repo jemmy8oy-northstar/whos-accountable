@@ -15,6 +15,9 @@ public sealed class RealCohortTests
     private const string EdmDataset =
         "https://www.data.gov.uk/dataset/19f6064d-7356-466f-844e-d20ea10ae9fd/event-duration-monitoring-storm-overflows-annual-returns";
 
+    private const string UkEtsComplianceReport =
+        "https://reports.view-emissions-trading-registry.service.gov.uk/ets-reports/section5/UK_ETS_Compliance_Report_Emissions_%26_Surrenders_2026.xlsx";
+
     private static ICohortDataset Load() =>
         new DatasetLoader().Load(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Data", "cohort-v1.json")));
 
@@ -23,29 +26,55 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(10, dataset.Companies.Count);
-        Assert.All(dataset.Companies, c => Assert.Equal(Sector.WaterUtilities, c.Sector));
+        Assert.Equal(26, dataset.Companies.Count);
+        Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
+        Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
     }
 
     [Fact]
     public void Every_company_is_identified_by_a_companies_house_number()
     {
+        // Eight digits for England and Wales; SC for Scotland, OC for an LLP, FC for an overseas
+        // company registered here because it has a UK establishment.
         var numbers = Load().Companies.Select(c => c.CompaniesHouseNumber).ToList();
 
-        Assert.All(numbers, n => Assert.Matches("^[0-9]{8}$", n));
+        Assert.All(numbers, n => Assert.Matches("^([0-9]{8}|(SC|OC|FC)[0-9]{6})$", n));
         Assert.Equal(numbers.Count, numbers.Distinct().Count());
     }
 
     [Fact]
     public void Every_record_links_to_its_published_source_with_a_retrieval_date()
     {
-        var violations = Load().Violations;
+        var dataset = Load();
 
-        Assert.All(violations, v =>
+        Assert.All(dataset.Violations, v =>
         {
             Assert.Equal(SourceKind.EventDurationMonitoring, v.Source.Kind);
             Assert.Equal(EdmDataset, v.Source.Url);
             Assert.True(v.Source.RetrievedOn >= new DateOnly(2026, 1, 1));
+        });
+        Assert.All(dataset.Emissions, e =>
+        {
+            Assert.Equal(SourceKind.UkEtsRegistry, e.Source.Kind);
+            Assert.Equal(UkEtsComplianceReport, e.Source.Url);
+            Assert.True(e.Source.RetrievedOn >= new DateOnly(2026, 1, 1));
+        });
+    }
+
+    [Fact]
+    public void Each_power_generator_holds_one_year_of_verified_emissions_and_no_intensity()
+    {
+        // Revenue is not a like-for-like denominator for a single power station: a tolled plant's
+        // revenue is a fee for being available, so its intensity measures the contract, not the
+        // carbon. Intensity stays unknown until the scale is calibrated (data/README.md, slice 2).
+        var emissions = Load().Emissions;
+
+        Assert.All(emissions.GroupBy(e => e.CompanyId), g => Assert.Single(g));
+        Assert.All(emissions, e =>
+        {
+            Assert.Equal(2025, e.Year);
+            Assert.True(e.AbsoluteTco2e > 0);
+            Assert.Null(e.IntensityTco2ePerGbpMillion);
         });
     }
 
