@@ -27,9 +27,9 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(122, dataset.Companies.Count);
+        Assert.Equal(138, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
-        Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
+        Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
         Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
         Assert.Equal(48, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.ConsumerGoods));
