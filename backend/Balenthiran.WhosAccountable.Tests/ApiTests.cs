@@ -107,6 +107,23 @@ public sealed class ApiTests : IClassFixture<ApiTests.SyntheticApi>
         Assert.StartsWith("https://", violation.GetProperty("source").GetProperty("url").GetString());
     }
 
+    [Theory]
+    [InlineData("POST", "/api/leaderboard")]
+    [InlineData("PUT", "/api/companies/thameswell-water")]
+    [InlineData("PATCH", "/api/companies/thameswell-water")]
+    [InlineData("DELETE", "/api/companies/thameswell-water")]
+    [InlineData("POST", "/api/methodology")]
+    public async Task BEH_SCOPE_2_a_visitor_cannot_write_through_any_route(string method, string url)
+    {
+        var response = await _client.SendAsync(new HttpRequestMessage(new HttpMethod(method), url)
+        {
+            Content = JsonContent.Create(new { composite = 100 }),
+        });
+
+        Assert.Equal(HttpStatusCode.MethodNotAllowed, response.StatusCode);
+        Assert.Equal(28.16, (await Get("/api/companies/thameswell-water")).GetProperty("composite").GetDouble());
+    }
+
     [Fact]
     public async Task BEH_API_1_unknown_company_is_a_404()
     {

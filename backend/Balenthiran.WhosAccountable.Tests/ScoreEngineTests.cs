@@ -137,6 +137,27 @@ public sealed class ScoreEngineTests
     }
 
     [Fact]
+    public void Higher_emissions_intensity_yields_a_lower_emissions_score()
+    {
+        var lean = Fixtures.Company("lean");
+        var dirty = Fixtures.Company("dirty");
+        var dataset = Fixtures.Dataset(
+            [lean, dirty],
+            emissions:
+            [
+                Fixtures.Emissions("lean", 2024, intensity: 20),
+                Fixtures.Emissions("dirty", 2024, intensity: 400),
+            ]);
+
+        var leanE = _engine.ScoreCompany(lean, dataset).Pillars.Single(p => p.Pillar == Pillar.Emissions).Value;
+        var dirtyE = _engine.ScoreCompany(dirty, dataset).Pillars.Single(p => p.Pillar == Pillar.Emissions).Value;
+
+        Assert.NotNull(leanE);
+        Assert.NotNull(dirtyE);
+        Assert.True(dirtyE < leanE, $"expected the more carbon-intensive company to score lower ({dirtyE} < {leanE})");
+    }
+
+    [Fact]
     public void Every_score_stays_within_zero_to_one_hundred()
     {
         var dataset = LoadedSyntheticDataset();
