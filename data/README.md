@@ -293,3 +293,55 @@ are listed without a composite.
 | Bristow Helicopters Limited | 00551102 | 23,728 |
 | CHC Scotia Limited | 00936569 | 14,047 |
 | NHV Helicopters Ltd | 09900216 | 10,525 |
+
+## v1, slice 6: oil and gas, the next 16 holders (2025)
+
+**Cohort.** The UK ETS account holders ranked 17 to 32 by 2025 verified emissions under slice 3's
+filter. Slice 3 took ranks 1 to 16, so the two slices together are the 32 largest oil and gas
+holders. They take the `OilAndGas` sector and the `oil-and-gas` tag, as slice 3 does. Each is
+identified by the Companies House number of the account holder named in the registry.
+
+**Why this tier next.** Of the open-data blocks not yet held, this one is the largest. Power
+holders ranked 17 to 32 under slice 2's filter fall from 384,000 t to 21,000 t, and include
+EDF's nuclear stations and a 27-site reserve fleet. These 16 run from 308,000 t to 108,000 t.
+
+**One group, several holders.** Four holders are named Chrysaor and share a registered office:
+Britannia, Judy, Armada, and Lomond with North Everest. Each is a separate company with its own
+number and its own registry account, so each is listed separately. The same rule kept NEO NEXT+'s
+two slice-3 companies apart. Group ownership is not modelled yet.
+
+**Renamed since the 2025 returns.** Two holders were renamed in 2026 and are shown under the
+current name with the former one in brackets: NEO NEXT+ Energy E&P North Sea UK Limited (formerly
+TotalEnergies E&P North Sea UK Limited) and NEO NEXT+ Energy PUK Limited (formerly NEO Energy
+Production UK Limited).
+
+**Source and filter.** The same compliance report and filter as slice 3, retrieved 2026-11-05. Four
+installations have a blank 2025 cell and count as zero: Rough gas storage, Western Isles FPSO,
+Tern Alpha and Eider Alpha.
+
+**Reconciled.** These 16 hold 3,154,541 t of the filter's 20,548,140 t. With slice 3, the cohort
+now holds 19,896,117 t of it (97%). None of the 16 holds an installation outside the filter, and no
+Companies House number is in an earlier slice.
+
+**Intensity is unknown, and there are no violations yet, as in slice 3.**
+
+| Company | CH number | Installations | 2025 tCO2e |
+|---|---|--:|--:|
+| TAQA Bratani Limited | 05975475 | 7 | 307,551 |
+| Chrysaor (U.K.) Britannia Limited | 02954364 | 1 | 297,378 |
+| Apache North Sea Limited | 04614761 | 3 | 280,419 |
+| ConocoPhillips (U.K.) Teesside Operator Limited | 11760664 | 1 | 249,763 |
+| Ithaca Energy (UK) Limited | SC272009 | 3 | 237,805 |
+| INEOS FPS Limited | 10660338 | 1 | 231,904 |
+| Chrysaor Petroleum Company U.K. Limited | 00792712 | 1 | 230,919 |
+| NEO NEXT+ Energy E&P North Sea UK Limited (formerly TotalEnergies E&P North Sea UK Limited) | 03682299 | 3 | 189,200 |
+| Serica Energy (UK) Limited | 04073712 | 1 | 188,294 |
+| Chrysaor Limited | 06418649 | 2 | 177,674 |
+| Premier Oil UK Limited | SC048705 | 2 | 161,476 |
+| Petroineos Manufacturing Scotland Limited | SC010612 | 1 | 132,480 |
+| Chrysaor North Sea Limited | 00958880 | 1 | 124,293 |
+| Centrica Energy Storage Limited | 03294124 | 2 | 118,604 |
+| NEO NEXT+ Energy PUK Limited (formerly NEO Energy Production UK Limited) | 12086835 | 1 | 118,467 |
+| Dana Petroleum (E&P) Limited | 02294746 | 2 | 108,314 |
+
+Installations counts include those with a blank 2025 cell.

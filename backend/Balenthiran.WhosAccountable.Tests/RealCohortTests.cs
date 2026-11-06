@@ -27,10 +27,10 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(74, dataset.Companies.Count);
+        Assert.Equal(90, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
-        Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
+        Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
         Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
     }
 
@@ -55,8 +55,9 @@ public sealed class RealCohortTests
     [Fact]
     public void Every_oil_and_gas_company_is_tagged_and_holds_only_emissions()
     {
-        // Slice 3 has no violations source yet: OPRED and EA enforcement for these sites is a later
-        // slice. OilAndGas stays out of violationsCoverage until it lands, so these are unscored.
+        // Slices 3 and 6 (the next 16 holders under the same filter) have no violations source yet:
+        // OPRED and EA enforcement for these sites is a later slice. OilAndGas stays out of
+        // violationsCoverage until it lands, so these are unscored.
         var dataset = Load();
         var oilAndGas = dataset.Companies.Where(c => c.Sector == Sector.OilAndGas).ToList();
 
