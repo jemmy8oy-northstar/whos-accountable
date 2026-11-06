@@ -143,6 +143,6 @@ public sealed class ApiTests : IClassFixture<ApiTests.SyntheticApi>
         using var api = new WebApplicationFactory<Program>();
         var board = await api.CreateClient().GetFromJsonAsync<JsonElement>("/api/leaderboard");
 
-        Assert.Equal(26, board.GetArrayLength());
+        Assert.Equal(42, board.GetArrayLength());
     }
 }

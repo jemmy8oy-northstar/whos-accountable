@@ -120,3 +120,61 @@ The PDFs give statutory revenue, not "adjusted".
 had verified under the scheme. They are not a breach, a fine or a finding. Biomass is zero-rated,
 so Drax Power Station's 2025 figure is 62,949 t. That is why Drax is not in this slice, not
 because its chimney emits little CO2. Biogenic emissions would need a separate source.
+
+## v1, slice 3: oil and gas, UK ETS verified emissions (2025)
+
+**Cohort.** The 16 UK ETS account holders with the largest 2025 verified emissions from oil and
+gas installations: crude oil extraction (NACE 610), natural gas extraction (620) and refining
+(1920). Offshore platforms are regulated by OPRED, refineries by the EA and NRW. Each holder is
+identified by the Companies House number of the account holder named in the registry. Two have
+been renamed since the 2025 returns, so the name shows the current one with the former in
+brackets. Apache Beryl I is an overseas company (`FC…`). Prax Lindsey Oil Refinery is in
+liquidation; the refinery closed in 2025, and its figure is what it emitted before that.
+
+**Why not the Carbon Majors dataset.** DATA-4 first named "UK-linked Carbon Majors" as this slice.
+That dataset is InfluenceMap's, offered for non-commercial use only, and the licence audit
+(DESIGN.md, issue #9) already rules out bulk use of InfluenceMap data in the composite. The UK ETS
+registry is open data and covers the UK operations of the same producers: BP, Shell, Esso
+(ExxonMobil), TotalEnergies' former UK arm, CNOOC and others. It measures what they emit in the UK,
+not the emissions of the fuel they sell. That is narrower than Carbon Majors' scope 3 figure, and
+it is the figure this site can publish.
+
+**Source.** The same UK ETS compliance report as slice 2, retrieved 2026-11-05.
+
+- Filter: `Account type` = `OPERATOR_HOLDING_ACCOUNT` and `NACE` in 610, 620, 1920.
+- Figure: "Recorded emissions 2025", summed over the holder's installations in that filter, goes
+  to `absoluteTco2e`. Ten installations have a blank 2025 cell (no return, mostly decommissioned
+  platforms such as Brent Charlie, Thistle A and Leman 49/27A) and count as zero.
+
+**Reconciled.** 113 installations across 48 holders emitted 20,548,140 tCO2e in 2025 under the
+filter, and these 16 hold 16,741,576 t of it (81%). None of the 16 holds an installation outside
+the filter, so each figure is the holder's whole 2025 UK ETS total. No holder is in slice 2.
+
+**Intensity is unknown, as in slice 2.** No turnover was read for this slice. Revenue for an
+operating subsidiary of a group is a transfer-pricing figure as much as a sales one, and the v1
+scale saturates on real emitters anyway (BEH-SCORE-8). These companies are listed without an
+emissions score or a composite until the scale is set on real data.
+
+**No violations yet.** OPRED and EA enforcement records for these sites are a later source.
+`OilAndGas` is not in `violationsCoverage`, so the violations pillar is unknown, not a clean 100.
+
+| Company | CH number | Installations | 2025 tCO2e |
+|---|---|--:|--:|
+| Esso Petroleum Company, Limited | 00026538 | 2 | 3,084,685 |
+| Valero Energy Ltd | 08566216 | 1 | 2,598,886 |
+| Phillips 66 Limited | 00529086 | 1 | 2,114,915 |
+| Essar Oil (UK) Limited | 07071400 | 1 | 1,751,168 |
+| BP Exploration Operating Company Limited | 00305943 | 6 | 1,001,082 |
+| Adura Operations Limited | 16172712 | 7 | 920,690 |
+| NEO NEXT+ Energy Resources UK Limited (formerly NEO Energy Resources UK Limited) | 00825828 | 7 | 675,306 |
+| NEO NEXT+ Energy E&P UK Limited (formerly TotalEnergies E&P UK Limited) | 00811900 | 3 | 661,110 |
+| Prax Lindsey Oil Refinery Limited | 00564599 | 1 | 661,031 |
+| Shell U.K. Limited | 00140141 | 7 | 626,627 |
+| EnQuest Heather Limited | 02748866 | 7 | 599,021 |
+| CNOOC Petroleum Europe Limited | 01051137 | 3 | 548,922 |
+| Apache Beryl I Limited | FC005975 | 2 | 424,867 |
+| CNR International (U.K.) Limited | 00813187 | 3 | 387,635 |
+| Perenco UK Limited | 04653066 | 9 | 347,747 |
+| Spirit Energy Production UK Limited | 03115179 | 2 | 337,884 |
+
+Installations counts include those with a blank 2025 cell.
