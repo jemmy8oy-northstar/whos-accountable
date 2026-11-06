@@ -442,3 +442,55 @@ not in `violationsCoverage`, so these companies are listed without a composite.
 | Kellogg Company of Great Britain Limited | 00199171 | 2 | 28,772 |
 
 Installations counts include those with a blank 2025 cell.
+
+## v1, slice 9: power, the next 16 holders (2025)
+
+**Cohort.** The UK ETS account holders ranked 17 to 32 by 2025 verified emissions at electricity
+generation installations (NACE 3511), slice 2's filter. Slice 2 took ranks 1 to 16. They take the
+`EnergyUtilities` sector and the `power-generation` tag, as slice 2 does. Each is identified by the
+Companies House number of the account holder named in the registry, and every registry name is
+still the company's current name.
+
+**A mixed tier.** The top four are single sites (Severn, Sutton Bridge, the CHP plant at Kemsley
+paper mill, and Medway), from 384,000 t down to 164,000 t. Below them are portfolios of small sites:
+UK Power Reserve holds 27 installations, Velox 13, and EDF's nuclear company 8, at 1,148 to 14,734 t
+per station. Scottish Hydro Electric Power Distribution's three are the island stations at Lerwick,
+Stornoway (Battery Point) and Kirkwall.
+
+**Drax.** Slice 2 notes that biomass is zero-rated, so Drax Power Station's 2025 figure is 62,949 t.
+That figure puts Drax at rank 26 here. The caveat in slice 2 applies: it is the scheme's figure,
+not the CO2 its chimney emits.
+
+**Source and filter.** The same compliance report and filter as slice 2, retrieved 2026-11-05.
+Unlike slice 2, the figure is summed only over the holder's installations in the filter. That makes
+no difference for slice 2's holders, which hold nothing outside it. Here it leaves out two Equans
+installations classed as chemicals and district heating (5,289 t). Five installations in the filter
+have a blank or `N/A` 2025 cell and count as zero: one each at Severn Power and Sutton Bridge, and
+three at Velox.
+
+**Reconciled.** These 16 hold 1,897,160 t of the filter's 30,253,354 t. With slice 2, the cohort
+now holds 29,850,929 t of it (99%). No Companies House number is in an earlier slice.
+
+**Intensity is unknown, as in slice 2, and there are no violations yet.**
+
+| Company | CH number | Installations | 2025 tCO2e |
+|---|---|--:|--:|
+| Severn Power Limited | 05392552 | 2 | 383,853 |
+| Sutton Bridge Power Generation | 02586357 | 2 | 310,505 |
+| E.ON UK CHP Limited | 02684288 | 1 | 241,714 |
+| Medway Power Limited | 02537903 | 1 | 164,219 |
+| Equans FM Limited | 00665702 | 1 | 151,556 |
+| Sembcorp Utilities (UK) Limited | 04636301 | 1 | 144,670 |
+| UK Power Reserve Limited | 07385282 | 27 | 108,349 |
+| Scottish Hydro Electric Power Distribution plc | SC213460 | 3 | 84,301 |
+| Grangemouth CHP Limited | SC178243 | 1 | 72,202 |
+| Drax Power Limited | 04883589 | 1 | 62,949 |
+| Velox Power Limited | 10967590 | 13 | 40,899 |
+| EDF Energy Nuclear Generation Limited | 03076445 | 8 | 35,824 |
+| E.ON UK Heat Limited | 11054698 | 1 | 27,920 |
+| CBS Energy Storage Assets UK Limited | 02352390 | 1 | 26,478 |
+| E.ON Connecting Energies Limited | 07592412 | 1 | 21,148 |
+| Whitetower Energy Limited | 03479694 | 6 | 20,573 |
+
+Installations counts include those with a blank 2025 cell, and the three Equans installations are
+counted as one, the one in the filter.
