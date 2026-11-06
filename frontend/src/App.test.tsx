@@ -5,12 +5,20 @@ import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 import type { LeaderboardEntry } from './api'
 
-function entry(rank: number, name: string, sector: string, composite: number | null, covered = 3): LeaderboardEntry {
+function entry(
+  rank: number,
+  name: string,
+  sector: string,
+  composite: number | null,
+  covered = 3,
+  country = 'GB',
+): LeaderboardEntry {
   return {
     rank,
     companyId: name.toLowerCase().replace(/\s+/g, '-'),
     name,
     sector,
+    country,
     composite,
     coveredPillars: covered,
     totalPillars: 4,
@@ -88,6 +96,31 @@ describe('leaderboard', () => {
     expect(screen.getByText('Beta Energy')).toBeInTheDocument()
     // Options persist after filtering so the user can switch back.
     expect(within(screen.getByLabelText('Sector')).getAllByRole('option')).toHaveLength(3)
+  })
+
+  it('with one country there is no country filter or column (BEH-BACKLOG-1)', async () => {
+    mockFetch(() => json(ROWS))
+    renderAt('/')
+    await screen.findByText('Alpha Water')
+    expect(screen.queryByLabelText('Country')).not.toBeInTheDocument()
+    expect(screen.queryByRole('columnheader', { name: 'Country' })).not.toBeInTheDocument()
+  })
+
+  it('with two countries a country filter re-requests with country=... (BEH-BACKLOG-1)', async () => {
+    const mixed = [...ROWS, entry(4, 'Delta Power', 'Energy', null, 0, 'US')]
+    const fetchFn = mockFetch((url) =>
+      json(url.includes('country=US') ? [entry(1, 'Delta Power', 'Energy', null, 0, 'US')] : mixed),
+    )
+    renderAt('/')
+    await screen.findByText('Delta Power')
+    expect(screen.getByRole('columnheader', { name: 'Country' })).toBeInTheDocument()
+    const select = screen.getByLabelText('Country')
+    expect(within(select).getAllByRole('option').map((o) => o.textContent)).toEqual(['All', 'GB', 'US'])
+    await userEvent.selectOptions(select, 'US')
+    await vi.waitFor(() => expect(screen.queryByText('Alpha Water')).not.toBeInTheDocument())
+    expect(fetchFn.mock.calls.at(-1)?.[0]).toBe('/api/leaderboard?direction=worst&country=US')
+    // Options persist after filtering so the user can switch back.
+    expect(within(screen.getByLabelText('Country')).getAllByRole('option')).toHaveLength(3)
   })
 
   it('error state names what failed (BEH-LEADER-1)', async () => {

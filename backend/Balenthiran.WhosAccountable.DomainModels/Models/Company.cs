@@ -15,6 +15,7 @@ public sealed record Company(
     string Name,
     Sector Sector,
     IReadOnlyList<string> CohortTags,
+    string Country,
     string? Lei = null,
     string? CompaniesHouseNumber = null) : ICompany
 {

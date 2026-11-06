@@ -13,7 +13,7 @@ public static class CompanyRoutes
             var c = scored.Company;
             var s = scored.Score;
             return Results.Ok(new CompanyDto(
-                c.Id, c.Name, c.Sector, c.CohortTags, c.Lei, c.CompaniesHouseNumber,
+                c.Id, c.Name, c.Sector, c.CohortTags, c.Country, c.Lei, c.CompaniesHouseNumber,
                 s.Value, s.CoveredPillars, s.TotalPillars, s.Pillars.Select(PillarDto.From).ToList(),
                 store.Dataset.Emissions.Where(e => e.CompanyId == c.Id)
                     .Select(e => new EmissionsEvidenceDto(e.Year, e.AbsoluteTco2e, e.IntensityTco2ePerGbpMillion, SourceDto.From(e.Source)))

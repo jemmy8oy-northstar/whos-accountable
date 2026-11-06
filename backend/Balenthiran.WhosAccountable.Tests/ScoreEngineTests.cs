@@ -115,6 +115,29 @@ public sealed class ScoreEngineTests
         Assert.Empty(dataset.ViolationsCoverage);
     }
 
+    [Theory]
+    [InlineData("""{ "id": "a", "name": "A", "sector": "Other", "cohortTags": [] }""")]
+    [InlineData("""{ "id": "a", "name": "A", "sector": "Other", "country": null, "cohortTags": [] }""")]
+    [InlineData("""{ "id": "a", "name": "A", "sector": "Other", "country": "gb", "cohortTags": [] }""")]
+    [InlineData("""{ "id": "a", "name": "A", "sector": "Other", "country": "GBR", "cohortTags": [] }""")]
+    public void A_company_without_a_two_letter_upper_case_country_is_refused(string company)
+    {
+        // BEH-BACKLOG-1: a company with no country would fall out of every country filter.
+        var ex = Assert.Throws<InvalidOperationException>(() =>
+            new DatasetLoader().Load($$"""{ "companies": [{{company}}], "emissions": [], "violations": [] }"""));
+
+        Assert.Contains("'a' needs a 'country'", ex.Message);
+    }
+
+    [Fact]
+    public void A_company_keeps_the_country_its_record_names()
+    {
+        var dataset = new DatasetLoader().Load(
+            """{ "companies": [{ "id": "a", "name": "A", "sector": "Other", "country": "US", "cohortTags": [] }], "emissions": [], "violations": [] }""");
+
+        Assert.Equal("US", Assert.Single(dataset.Companies).Country);
+    }
+
     [Fact]
     public void More_enforcement_harm_yields_a_lower_violations_score()
     {

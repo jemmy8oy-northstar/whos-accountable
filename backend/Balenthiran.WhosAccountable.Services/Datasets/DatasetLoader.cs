@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Balenthiran.WhosAccountable.Abstractions;
 using Balenthiran.WhosAccountable.Abstractions.DomainModels;
 using Balenthiran.WhosAccountable.DomainModels.Models;
@@ -13,8 +14,13 @@ namespace Balenthiran.WhosAccountable.Services.Datasets;
 /// JSON is legible in diffs) and property matching is case-insensitive. The engine never touches
 /// JSON directly — everything flows through here.
 /// </summary>
-public sealed class DatasetLoader : IDatasetLoader
+public sealed partial class DatasetLoader : IDatasetLoader
 {
+    [GeneratedRegex("^[A-Z]{2}$")]
+    private static partial Regex CountryCodeRegex();
+
+    private static readonly Regex CountryCode = CountryCodeRegex();
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -36,6 +42,11 @@ public sealed class DatasetLoader : IDatasetLoader
                 throw new InvalidOperationException("A company is missing its 'id'.");
             if (!ids.Add(company.Id))
                 throw new InvalidOperationException($"Duplicate company id '{company.Id}'.");
+            // A missing country would drop the company from every country filter, so it is
+            // refused like a missing id rather than defaulted.
+            if (company.Country is null || !CountryCode.IsMatch(company.Country))
+                throw new InvalidOperationException(
+                    $"Company '{company.Id}' needs a 'country': an upper-case ISO 3166-1 alpha-2 code, such as GB or US.");
         }
 
         // Every record must attach to a known company — a stray companyId is a data bug
