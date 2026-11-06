@@ -178,3 +178,62 @@ emissions score or a composite until the scale is set on real data.
 | Spirit Energy Production UK Limited | 03115179 | 2 | 337,884 |
 
 Installations counts include those with a blank 2025 cell.
+
+## v1, slice 4: heavy industry, UK ETS verified emissions (2025)
+
+**Cohort.** The 16 UK ETS account holders with the largest 2025 verified emissions from heavy
+industry: iron and steel (NACE 2410), cement (2351), lime (2352), basic chemicals (2011 to 2017),
+glass (2311 to 2319), pulp and paper (1711, 1712), bricks (2332), plaster (2362) and other mineral
+products (2399). They take the `Industrials` sector and the `heavy-industry` tag. As in the earlier
+slices, each is identified by the Companies House number of the account holder named in the
+registry.
+
+**British Steel.** The registry names "British Steel Limited". In 2025 that was company 12303256.
+On 16 July 2026 it was renamed "2026 Transferor Company Limited", and a new holding company
+(17312541, incorporated 1 July 2026) took the British Steel name. The 2025 emissions belong to the
+company that ran Scunthorpe in 2025, so this slice uses 12303256 and shows the current name with
+the former one in brackets, as for TTEP. Its id is `british-steel`.
+
+**Why not the FTSE 100 yet.** DATA-4 names the FTSE 100 as the slice after oil and gas. Measured
+against the same registry, only 14 of the 100 constituents (as listed after the October 2026
+changes) hold any UK ETS emissions. The largest are BP, Shell and SSE, whose operating
+subsidiaries are already in slices 2 and 3. Banks, insurers and retailers hold none, because the
+ETS covers installations, not offices or shops. A FTSE 100 slice needs a scope 1 and 2 source
+(annual-report SECR disclosures), which is unstructured and not yet read. Heavy industry is the
+largest open-data block of emissions not yet held.
+
+**Source.** The same UK ETS compliance report as slices 2 and 3, retrieved 2026-11-05.
+
+- Filter: `Account type` = `OPERATOR_HOLDING_ACCOUNT` and `NACE` in the codes above.
+- Figure: "Recorded emissions 2025", summed over the holder's installations in that filter, goes
+  to `absoluteTco2e`. One installation has a blank 2025 cell (CEMEX's South Ferriby works) and
+  counts as zero.
+
+**Reconciled.** 157 installations across 98 holders emitted 14,580,928 tCO2e in 2025 under the
+filter, and these 16 hold 11,273,477 t of it (77%). One holder has an installation outside the
+filter: Tata Steel's Corby tubeworks (NACE 2420, 15,779 t), which is not counted. No holder is in
+slice 2 or 3.
+
+**Intensity is unknown, and there are no violations yet, as in slice 3.** `Industrials` is not
+in `violationsCoverage`, so these companies are listed without a composite.
+
+| Company | CH number | Installations | 2025 tCO2e |
+|---|---|--:|--:|
+| 2026 Transferor Company Limited (formerly British Steel Limited) | 12303256 | 3 | 3,214,101 |
+| Castle Cement Limited | 02182762 | 3 | 1,268,533 |
+| Tarmac Cement Limited | 00066558 | 3 | 1,266,478 |
+| Breedon Cement Limited | 08284549 | 1 | 892,364 |
+| CEMEX UK Cement Limited | 00475212 | 2 | 863,814 |
+| ExxonMobil Chemical Limited | 00867162 | 2 | 663,024 |
+| Holcim UK Cement Limited | 09326237 | 1 | 598,499 |
+| Buxton Lime Limited | 14245883 | 2 | 483,542 |
+| INEOS Chemicals Grangemouth Limited | 06981897 | 1 | 375,054 |
+| Ardagh Glass Limited | 00567801 | 4 | 341,183 |
+| Tata Steel UK Limited | 02280000 | 5 | 288,882 |
+| Cemcor Ltd | 09559778 | 1 | 270,575 |
+| Singleton Birch Limited | 00009433 | 1 | 220,156 |
+| Saint-Gobain Construction Products UK Limited | 00734396 | 5 | 186,351 |
+| Steetley Dolomite Limited | 04071554 | 1 | 173,366 |
+| Forterra Building Products Limited | 08960430 | 5 | 167,555 |
+
+Installations counts include those with a blank 2025 cell.

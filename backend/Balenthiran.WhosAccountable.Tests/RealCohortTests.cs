@@ -27,10 +27,24 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(42, dataset.Companies.Count);
+        Assert.Equal(58, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
+        Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
+    }
+
+    [Fact]
+    public void Every_heavy_industry_company_is_tagged_and_holds_only_emissions()
+    {
+        // Slice 4, on the same terms as slice 3: no enforcement register for these sites is held,
+        // so Industrials stays out of violationsCoverage and they are listed unscored.
+        var dataset = Load();
+        var industry = dataset.Companies.Where(c => c.Sector == Sector.Industrials).ToList();
+
+        Assert.All(industry, c => Assert.Equal(new[] { "heavy-industry" }, c.CohortTags));
+        Assert.All(industry, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
+        Assert.DoesNotContain(dataset.Violations, v => industry.Any(c => c.Id == v.CompanyId));
     }
 
     [Fact]
@@ -82,7 +96,7 @@ public sealed class RealCohortTests
         // Revenue is not a like-for-like denominator for a single power station: a tolled plant's
         // revenue is a fee for being available, so its intensity measures the contract, not the
         // carbon. Intensity stays unknown until the scale is calibrated (data/README.md, slice 2).
-        // Slice 3's oil and gas holders are on the same terms (data/README.md, slice 3).
+        // Slice 3's oil and gas holders and slice 4's heavy industry are on the same terms.
         var emissions = Load().Emissions;
 
         Assert.All(emissions.GroupBy(e => e.CompanyId), g => Assert.Single(g));
