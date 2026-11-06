@@ -13,6 +13,7 @@ export interface LeaderboardEntry {
   companyId: string
   name: string
   sector: string
+  country: string
   composite: number | null
   coveredPillars: number
   totalPillars: number
@@ -22,10 +23,12 @@ export interface LeaderboardEntry {
 export async function fetchLeaderboard(
   direction: Direction,
   sector: string | null,
+  country: string | null,
   signal?: AbortSignal,
 ): Promise<LeaderboardEntry[]> {
   const params = new URLSearchParams({ direction })
   if (sector) params.set('sector', sector)
+  if (country) params.set('country', country)
   const res = await fetch(`/api/leaderboard?${params.toString()}`, { signal })
   if (!res.ok) throw new Error(`the leaderboard request failed (HTTP ${res.status})`)
   return (await res.json()) as LeaderboardEntry[]

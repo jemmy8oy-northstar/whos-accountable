@@ -12,11 +12,11 @@ public sealed record PillarDto(Pillar Pillar, double? Value, double Weight, bool
 }
 
 public sealed record LeaderboardEntryDto(
-    int Rank, string CompanyId, string Name, Sector Sector,
+    int Rank, string CompanyId, string Name, Sector Sector, string Country,
     double? Composite, int CoveredPillars, int TotalPillars, IReadOnlyList<PillarDto> Pillars)
 {
     public static LeaderboardEntryDto From(int rank, IScoredCompany s) => new(
-        rank, s.Company.Id, s.Company.Name, s.Company.Sector, s.Score.Value,
+        rank, s.Company.Id, s.Company.Name, s.Company.Sector, s.Company.Country, s.Score.Value,
         s.Score.CoveredPillars, s.Score.TotalPillars, s.Score.Pillars.Select(PillarDto.From).ToList());
 }
 
@@ -31,7 +31,7 @@ public sealed record ViolationEvidenceDto(
     int Year, decimal FineGbp, int IncidentCount, double? DischargeHours, string Description, SourceDto Source);
 
 public sealed record CompanyDto(
-    string Id, string Name, Sector Sector, IReadOnlyList<string> CohortTags, string? Lei, string? CompaniesHouseNumber,
+    string Id, string Name, Sector Sector, IReadOnlyList<string> CohortTags, string Country, string? Lei, string? CompaniesHouseNumber,
     double? Composite, int CoveredPillars, int TotalPillars, IReadOnlyList<PillarDto> Pillars,
     IReadOnlyList<EmissionsEvidenceDto> Emissions, IReadOnlyList<ViolationEvidenceDto> Violations);
 

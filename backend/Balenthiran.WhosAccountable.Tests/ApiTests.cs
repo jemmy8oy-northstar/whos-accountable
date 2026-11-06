@@ -85,9 +85,29 @@ public sealed class ApiTests : IClassFixture<ApiTests.SyntheticApi>
         Assert.All(board.EnumerateArray(), e => Assert.Equal("EnergyUtilities", e.GetProperty("sector").GetString()));
     }
 
+    [Fact]
+    public async Task BEH_BACKLOG_1_country_filter_keeps_one_country_and_reranks_from_one()
+    {
+        var us = await Get("/api/leaderboard?country=us");
+        var gbEnergy = await Get("/api/leaderboard?sector=EnergyUtilities&country=GB");
+
+        Assert.Equal(["verdigris-renewables"], Ids(us));
+        Assert.Equal(1, us[0].GetProperty("rank").GetInt32());
+        Assert.Equal("US", us[0].GetProperty("country").GetString());
+        Assert.Equal(["northgale-energy"], Ids(gbEnergy));
+    }
+
+    [Fact]
+    public async Task BEH_BACKLOG_1_a_country_with_no_companies_is_an_empty_board()
+    {
+        Assert.Equal(0, (await Get("/api/leaderboard?country=FR")).GetArrayLength());
+    }
+
     [Theory]
     [InlineData("/api/leaderboard?direction=sideways")]
     [InlineData("/api/leaderboard?sector=NotASector")]
+    [InlineData("/api/leaderboard?country=GBR")]
+    [InlineData("/api/leaderboard?country=G1")]
     public async Task BEH_API_1_bad_direction_or_sector_is_a_400(string url)
     {
         await Get(url, HttpStatusCode.BadRequest);
@@ -99,6 +119,7 @@ public sealed class ApiTests : IClassFixture<ApiTests.SyntheticApi>
         var company = await Get("/api/companies/thameswell-water");
 
         Assert.Equal("Thameswell Water", company.GetProperty("name").GetString());
+        Assert.Equal("GB", company.GetProperty("country").GetString());
         Assert.Equal(28.16, company.GetProperty("composite").GetDouble());
         Assert.Equal(2, company.GetProperty("pillars").GetArrayLength());
         Assert.Equal(2, company.GetProperty("emissions").GetArrayLength());

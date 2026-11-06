@@ -20,7 +20,7 @@ internal static class Fixtures
         new(kind, 1, new DateOnly(2026, 1, 15), "https://example.invalid/synthetic");
 
     public static Company Company(string id, string name = "Test Co", Sector sector = Sector.Other) =>
-        new(id, name, sector, ["synthetic"]);
+        new(id, name, sector, ["synthetic"], "GB");
 
     public static EmissionsRecord Emissions(string companyId, int year, double? intensity, double absolute = 1000) =>
         new(companyId, year, absolute, intensity, Src());

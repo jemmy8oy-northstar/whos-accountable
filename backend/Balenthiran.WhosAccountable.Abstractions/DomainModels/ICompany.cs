@@ -11,6 +11,9 @@ public interface ICompany
     string Name { get; }
     Sector Sector { get; }
     IReadOnlyList<string> CohortTags { get; }
+
+    /// <summary>ISO 3166-1 alpha-2 code of the country whose register the company is taken from: GB or US (BEH-BACKLOG-1).</summary>
+    string Country { get; }
     string? Lei { get; }
     string? CompaniesHouseNumber { get; }
 }

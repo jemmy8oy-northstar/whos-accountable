@@ -33,6 +33,7 @@ public sealed class RealCohortTests
         Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
         Assert.Equal(54, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.ConsumerGoods));
+        Assert.All(dataset.Companies, c => Assert.Equal("GB", c.Country));
     }
 
     [Fact]
