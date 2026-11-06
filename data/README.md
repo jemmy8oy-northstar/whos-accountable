@@ -390,3 +390,55 @@ Companies House number is in an earlier slice.
 | O-I Glass Limited | 00526983 | 2 | 85,736 |
 
 Installations counts include those with a blank 2025 cell.
+
+## v1, slice 8: food and drink, UK ETS verified emissions (2025)
+
+**Cohort.** The 16 UK ETS account holders with the largest 2025 verified emissions from food and
+drink installations (NACE 10 and 11): sugar, starch, oils and fats, potatoes, rendering, dairy,
+brewing, distilling and breakfast cereal. They take the `ConsumerGoods` sector, the first slice in
+it, and the `food-and-drink` tag. Each is identified by the Companies House number of the account
+holder named in the registry, and every registry name is still the company's current name.
+
+**Why this slice next.** Power holders ranked 17 to 32 hold a little more in total (1,897,160 t
+against 1,741,273 t), and can follow as their own slice. Food and drink comes first because its
+holders are names a reader buys from, and because British Sugar alone emitted 685,662 t, more than
+any heavy-industry holder in slice 7.
+
+**Nestlé.** The registry has a second holder carrying Nestlé's name: "Cereal Partners UK : Nestle UK
+Ltd : General Mills Canada Corporation", the joint venture with General Mills. At 20,813 t it ranks
+below the 16, and it is not added to Nestlé UK Ltd's figure.
+
+**Source.** The same compliance report as slices 2 to 7, retrieved 2026-11-05.
+
+- Filter: `Account type` = `OPERATOR_HOLDING_ACCOUNT` and `NACE` beginning `10` or `11` (four digits).
+- Figure: "Recorded emissions 2025", summed over the holder's installations in that filter, goes
+  to `absoluteTco2e`. One installation has a blank 2025 cell (Diageo's Burghead Maltings) and counts
+  as zero.
+
+**Reconciled.** 78 installations across 58 holders emitted 2,255,418 tCO2e in 2025 under the
+filter, and these 16 hold 1,741,273 t of it (77%). None of the 16 holds an installation outside the
+filter, and no Companies House number is in an earlier slice.
+
+**Intensity is unknown, and there are no violations yet, as in slices 3 to 7.** `ConsumerGoods` is
+not in `violationsCoverage`, so these companies are listed without a composite.
+
+| Company | CH number | Installations | 2025 tCO2e |
+|---|---|--:|--:|
+| British Sugar plc | 00315158 | 4 | 685,662 |
+| Cargill plc | 01387437 | 2 | 270,734 |
+| Sedamyl UK Limited | 07023586 | 1 | 105,229 |
+| William Grant & Sons Distillers Limited | SC134248 | 2 | 91,955 |
+| T&L Sugars Limited | 07318607 | 1 | 89,424 |
+| McCain Foods (G.B.) Limited | 00733218 | 3 | 69,106 |
+| Omega Proteins Limited | 03868711 | 2 | 68,735 |
+| Archer Daniels Midland Erith Limited | 00159486 | 1 | 67,513 |
+| Diageo Scotland Limited | SC000750 | 4 | 46,171 |
+| Muller UK & Ireland Group LLP | OC384928 | 2 | 44,828 |
+| Advanced Proteins Unltd | NI024133 | 1 | 42,636 |
+| AB InBev UK Limited | 03982132 | 2 | 37,168 |
+| Nestlé UK Ltd | 00051491 | 2 | 31,895 |
+| Weetabix Limited | 00267687 | 1 | 31,291 |
+| Walkers Snack Foods Limited | 02333074 | 1 | 30,154 |
+| Kellogg Company of Great Britain Limited | 00199171 | 2 | 28,772 |
+
+Installations counts include those with a blank 2025 cell.

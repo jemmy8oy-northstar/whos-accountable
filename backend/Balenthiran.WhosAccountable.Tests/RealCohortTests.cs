@@ -27,11 +27,25 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(106, dataset.Companies.Count);
+        Assert.Equal(122, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
         Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
         Assert.Equal(48, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
+        Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.ConsumerGoods));
+    }
+
+    [Fact]
+    public void Every_consumer_goods_company_is_tagged_and_holds_only_emissions()
+    {
+        // Slice 8 (food and drink) has no enforcement register held, so ConsumerGoods stays out of
+        // violationsCoverage and these companies are listed unscored.
+        var dataset = Load();
+        var consumer = dataset.Companies.Where(c => c.Sector == Sector.ConsumerGoods).ToList();
+
+        Assert.All(consumer, c => Assert.Equal(new[] { "food-and-drink" }, c.CohortTags));
+        Assert.All(consumer, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
+        Assert.DoesNotContain(dataset.Violations, v => consumer.Any(c => c.Id == v.CompanyId));
     }
 
     [Theory]
