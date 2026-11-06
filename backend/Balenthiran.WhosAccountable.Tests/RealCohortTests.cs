@@ -27,24 +27,29 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(58, dataset.Companies.Count);
+        Assert.Equal(74, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
-        Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
+        Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
     }
 
-    [Fact]
-    public void Every_heavy_industry_company_is_tagged_and_holds_only_emissions()
+    [Theory]
+    [InlineData("heavy-industry")]
+    [InlineData("aviation")]
+    public void Every_industrials_company_carries_one_slice_tag_and_holds_only_emissions(string tag)
     {
-        // Slice 4, on the same terms as slice 3: no enforcement register for these sites is held,
-        // so Industrials stays out of violationsCoverage and they are listed unscored.
+        // Slices 4 (heavy industry) and 5 (aircraft operators) share the Industrials sector and are
+        // told apart by their tag. Neither has an enforcement register held, so Industrials stays
+        // out of violationsCoverage and they are listed unscored.
         var dataset = Load();
         var industry = dataset.Companies.Where(c => c.Sector == Sector.Industrials).ToList();
+        var slice = industry.Where(c => c.CohortTags.Contains(tag)).ToList();
 
-        Assert.All(industry, c => Assert.Equal(new[] { "heavy-industry" }, c.CohortTags));
-        Assert.All(industry, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
-        Assert.DoesNotContain(dataset.Violations, v => industry.Any(c => c.Id == v.CompanyId));
+        Assert.Equal(16, slice.Count);
+        Assert.All(industry, c => Assert.Single(c.CohortTags));
+        Assert.All(slice, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
+        Assert.DoesNotContain(dataset.Violations, v => slice.Any(c => c.Id == v.CompanyId));
     }
 
     [Fact]
@@ -63,11 +68,11 @@ public sealed class RealCohortTests
     [Fact]
     public void Every_company_is_identified_by_a_companies_house_number()
     {
-        // Eight digits for England and Wales; SC for Scotland, OC for an LLP, FC for an overseas
-        // company registered here because it has a UK establishment.
+        // Eight digits for England and Wales; SC for Scotland, NI for Northern Ireland, OC for an
+        // LLP, FC for an overseas company registered here because it has a UK establishment.
         var numbers = Load().Companies.Select(c => c.CompaniesHouseNumber).ToList();
 
-        Assert.All(numbers, n => Assert.Matches("^([0-9]{8}|(SC|OC|FC)[0-9]{6})$", n));
+        Assert.All(numbers, n => Assert.Matches("^([0-9]{8}|(SC|NI|OC|FC)[0-9]{6})$", n));
         Assert.Equal(numbers.Count, numbers.Distinct().Count());
     }
 

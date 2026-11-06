@@ -237,3 +237,59 @@ in `violationsCoverage`, so these companies are listed without a composite.
 | Forterra Building Products Limited | 08960430 | 5 | 167,555 |
 
 Installations counts include those with a blank 2025 cell.
+
+## v1, slice 5: aircraft operators, UK ETS verified emissions (2025)
+
+**Cohort.** The 16 UK ETS aircraft operators incorporated in the UK (England and Wales, Scotland
+or Northern Ireland) with the largest 2025 verified emissions. They take the `Industrials` sector
+and the `aviation` tag, so they are told apart from slice 4 by tag. Each is identified by the
+Companies House number of the operator named in the registry.
+
+**Why incorporated in the UK, not just registered here.** Slice 2 counts overseas companies with a
+UK establishment (`FC…`), because their power stations are in the UK. Most large foreign airlines
+are registered here too (Lufthansa, Air France, TAP, Swiss, Wizz Air Hungary), often for little
+more than a sales office, and their UK ETS figure covers only their flights to and from the UK.
+Counting them would make "UK-linked" mean "sells tickets here". So Ryanair DAC (1.97 Mt, the
+largest operator), easyJet Europe and Wizz Air's Hungarian and Maltese companies are left out,
+while their UK subsidiaries are in.
+
+**What these numbers are, and are not.** The UK ETS covers flights within the UK and from the UK
+to the EEA, Gibraltar and Switzerland. Long-haul flights are not in it. British Airways' figure is
+therefore a fraction of its emissions, and Virgin Atlantic records 0 t and is not in the slice.
+Each figure is what the scheme covers, and it is not comparable with the airline's total footprint.
+A short-haul carrier will rank above a long-haul one that emits far more.
+
+**Source.** The same UK ETS compliance report as slices 2 to 4, retrieved 2026-11-05.
+
+- Filter: `Account type` = `AIRCRAFT_OPERATOR_HOLDING_ACCOUNT`. Each operator here holds one
+  account.
+- Figure: "Recorded emissions 2025" goes to `absoluteTco2e`. Cells reading `EXCLUDED` (an
+  operator under the de minimis threshold that year) count as zero.
+
+**Reconciled.** 636 aircraft operator accounts, 365 of them with emissions, recorded 8,591,412
+tCO2e in 2025. These 16 hold 4,644,616 t of it (54%). No operator is in an earlier slice.
+
+**DHL Air.** The registry names "DHL Air Ltd". Company 01671114 was renamed "DHL Air (UK) Limited"
+on 30 May 2024. It is shown under the current name, with the former one in brackets.
+
+**Intensity is unknown, and there are no violations yet, as in slices 3 and 4.** These companies
+are listed without a composite.
+
+| Company | CH number | 2025 tCO2e |
+|---|---|--:|
+| easyJet UK Limited | 10886978 | 1,785,360 |
+| Jet2.com Limited | 02739537 | 827,054 |
+| British Airways plc | 01777777 | 687,409 |
+| TUI Airways Limited | 00444359 | 400,312 |
+| BA Euroflyer Limited | 13734241 | 196,915 |
+| BA CityFlyer Limited | 02571224 | 169,680 |
+| Ryanair UK Limited | 01917579 | 150,293 |
+| Wizz Air UK Limited | 10982241 | 129,944 |
+| Loganair Limited | SC170072 | 104,142 |
+| DHL Air (UK) Limited (formerly DHL Air Limited) | 01671114 | 65,081 |
+| Emerald Airlines UK Limited | NI683576 | 31,190 |
+| Offshore Helicopter Services UK Limited | 04278474 | 24,681 |
+| West Atlantic UK Limited | 05059096 | 24,255 |
+| Bristow Helicopters Limited | 00551102 | 23,728 |
+| CHC Scotia Limited | 00936569 | 14,047 |
+| NHV Helicopters Ltd | 09900216 | 10,525 |
