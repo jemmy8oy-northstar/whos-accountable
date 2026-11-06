@@ -1,5 +1,6 @@
 {
   "_comment": "REAL data. v1 slice 1: the 10 water and sewerage companies filing an EDM storm-overflow annual return in England, with their 2025 spill totals. Slice 2: the 16 power-generating account holders with the largest UK ETS verified emissions in 2025, absolute tonnes only (intensity unknown, see the README). Provenance, reconciliation and caveats are in data/README.md. Storm overflows are permitted to spill in rainfall: an EDM spill is a recorded discharge, not by itself a breach.",
+  "violationsCoverage": ["WaterUtilities"],
   "companies": [
     { "id": "anglian-water", "name": "Anglian Water Services Limited", "sector": "WaterUtilities", "cohortTags": ["water-and-sewerage"], "companiesHouseNumber": "02366656" },
     { "id": "dwr-cymru-welsh-water", "name": "Dŵr Cymru Cyfyngedig (Welsh Water)", "sector": "WaterUtilities", "cohortTags": ["water-and-sewerage"], "companiesHouseNumber": "02366777" },

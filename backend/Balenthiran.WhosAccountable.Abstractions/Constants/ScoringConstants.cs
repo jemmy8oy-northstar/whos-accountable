@@ -47,7 +47,8 @@ public static class ScoringConstants
 
     /// <summary>
     /// Total harm at which the violations sub-score decays to 1/e, via
-    /// score = 100·e^(-harm/scale). A company with no recorded enforcement scores 100.
+    /// score = 100·e^(-harm/scale). A company with no recorded enforcement scores 100,
+    /// if the dataset holds its sector's registers (ICohortDataset.ViolationsCoverage).
     /// </summary>
     public const double ViolationHarmScale = 5.0;
 

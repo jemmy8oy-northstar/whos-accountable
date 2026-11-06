@@ -1,5 +1,6 @@
 using Balenthiran.WhosAccountable.Abstractions;
 using Balenthiran.WhosAccountable.Abstractions.DomainModels;
+using Balenthiran.WhosAccountable.Services.Datasets;
 using Balenthiran.WhosAccountable.Services.Scoring;
 
 namespace Balenthiran.WhosAccountable.Tests;
@@ -75,6 +76,43 @@ public sealed class ScoreEngineTests
 
         Assert.Equal(100.0, violations.Value);
         Assert.Equal(2, score.CoveredPillars);
+    }
+
+    [Fact]
+    public void No_enforcement_in_a_sector_whose_registers_are_not_held_is_unknown_not_clean()
+    {
+        // The same company as above, but the dataset holds no enforcement source for its sector:
+        // nobody looked, so it must not score 100 on violations by its own absence.
+        var company = Fixtures.Company("clean-emitter");
+        var dataset = Fixtures.Dataset(
+            [company],
+            emissions: [Fixtures.Emissions("clean-emitter", 2024, intensity: 50)],
+            violationsCoverage: []);
+
+        var score = _engine.ScoreCompany(company, dataset);
+        var violations = score.Pillars.Single(p => p.Pillar == Pillar.Violations);
+        var emissions = score.Pillars.Single(p => p.Pillar == Pillar.Emissions);
+
+        Assert.Null(violations.Value);
+        Assert.Equal(1, score.CoveredPillars);
+        Assert.Equal(emissions.Value, score.Value);
+    }
+
+    [Fact]
+    public void An_absent_coverage_field_in_the_json_covers_no_sector()
+    {
+        var dataset = new DatasetLoader().Load("""{ "companies": [], "emissions": [], "violations": [] }""");
+
+        Assert.Empty(dataset.ViolationsCoverage);
+    }
+
+    [Fact]
+    public void A_null_coverage_field_in_the_json_covers_no_sector()
+    {
+        var dataset = new DatasetLoader().Load(
+            """{ "violationsCoverage": null, "companies": [], "emissions": [], "violations": [] }""");
+
+        Assert.Empty(dataset.ViolationsCoverage);
     }
 
     [Fact]

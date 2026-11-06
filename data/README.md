@@ -7,6 +7,12 @@ reviewable diff (DESIGN.md, "Data-as-code").
 `cohort-v1.json` is in the shape `DatasetLoader` reads. The synthetic fixture in
 `backend/Balenthiran.WhosAccountable.Tests/Fixtures/` stays as the engine's behavioural pin.
 
+**`violationsCoverage`** lists the sectors whose enforcement source this file holds. Only a company
+in one of them scores a clean 100 on violations when it has no record. Today that's only
+`WaterUtilities`, from the EDM returns. Without it, every power generator with emissions but no
+enforcement record scored a clean 100, and so a composite of 100: the top of the do-gooder board.
+Add a sector when its enforcement register (EA, OPRED, Ofwat) lands as a slice.
+
 ## v1, slice 1: English water and sewerage companies, storm-overflow spills (2025)
 
 **Cohort.** The 10 water and sewerage companies that file an EDM annual return in England,
