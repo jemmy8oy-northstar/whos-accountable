@@ -33,6 +33,12 @@ internal static class Fixtures
     public static CohortDataset Dataset(
         IEnumerable<Company> companies,
         IEnumerable<EmissionsRecord>? emissions = null,
-        IEnumerable<ViolationRecord>? violations = null) =>
-        new([.. companies], [.. emissions ?? []], [.. violations ?? []]);
+        IEnumerable<ViolationRecord>? violations = null,
+        IEnumerable<Sector>? violationsCoverage = null) =>
+        new([.. companies], [.. emissions ?? []], [.. violations ?? []])
+        {
+            // Unit tests default to every sector's registers being held, so a test is about the
+            // rule it names. Coverage itself is pinned by its own tests.
+            ViolationsCoverage = [.. violationsCoverage ?? Enum.GetValues<Sector>()],
+        };
 }

@@ -1,5 +1,6 @@
 {
   "_comment": "SYNTHETIC test fixture — every company here is FICTIONAL. It exists only to pin the scoring engine's behaviour in the golden-file test and carries zero real-world figures, so there is no risk of publishing a wrong number about a real company. Real, open-government datasets land in a later PR (see DESIGN.md / whos-accountable#1). The numbers are chosen to exercise each engine path: heavy violations, high emissions intensity, a clean top performer, emissions-only (no enforcement) companies, a small-fine mid-tier, and a total coverage gap.",
+  "violationsCoverage": ["WaterUtilities", "EnergyUtilities", "Mining", "ConsumerGoods", "Industrials"],
   "companies": [
     { "id": "thameswell-water", "name": "Thameswell Water", "sector": "WaterUtilities", "cohortTags": ["synthetic", "utilities"] },
     { "id": "northgale-energy", "name": "Northgale Energy", "sector": "EnergyUtilities", "cohortTags": ["synthetic", "utilities"] },

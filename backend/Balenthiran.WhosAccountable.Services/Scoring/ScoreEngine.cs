@@ -17,9 +17,9 @@ namespace Balenthiran.WhosAccountable.Services.Scoring;
 ///   <item>Missing <em>disclosure</em> is never imputed to neutral. If a company discloses
 ///   no emissions intensity, the emissions pillar is <c>null</c> (unknown) and simply drops
 ///   out of the weighted average — it does not become a middling 50.</item>
-///   <item>Missing <em>enforcement record</em> is not the same as missing disclosure. The
-///   open-gov enforcement registers cover the whole cohort, so a company absent from them
-///   has genuinely no recorded penalties and scores a clean 100 on violations.</item>
+///   <item>Missing <em>enforcement record</em> is not the same as missing disclosure. Where the
+///   dataset holds a sector's open-gov enforcement registers (ViolationsCoverage), a company absent from them
+///   has genuinely no recorded penalties and scores a clean 100 on violations. Outside them, absence is unknown.</item>
 /// </list>
 /// </summary>
 public sealed class ScoreEngine : IScoreEngine
@@ -34,12 +34,14 @@ public sealed class ScoreEngine : IScoreEngine
 
         // A clean violations record (100) is only meaningful if we hold *some* data for the
         // company — evidence it has actually been ingested and would show up in the registers
-        // if it offended. A company with no records of any kind is a coverage gap, not a
-        // do-gooder, so it stays fully unknown rather than being crowned by its own absence.
+        // if it offended — and if we hold the enforcement registers for its sector. A company
+        // with no records of any kind, or in a sector whose registers we never loaded, is a
+        // coverage gap, not a do-gooder, so it is not crowned by its own absence.
         var hasAnyData = companyEmissions.Count > 0 || companyViolations.Count > 0;
+        var registersHeld = dataset.ViolationsCoverage.Contains(company.Sector);
 
         var emissions = ScoreEmissions(companyEmissions);
-        var violations = ScoreViolations(companyViolations, hasAnyData);
+        var violations = ScoreViolations(companyViolations, hasAnyData && registersHeld);
 
         var pillars = new[] { emissions, violations };
         return new CompositeScore(company.Id, Composite(pillars), pillars);
@@ -100,19 +102,20 @@ public sealed class ScoreEngine : IScoreEngine
     /// <summary>
     /// Violations pillar: aggregates every recorded enforcement event into a single "harm"
     /// figure (fines + incident counts + discharge hours, each weighted), then decays it to
-    /// a 0–100 score. No enforcement records means a clean 100 — but only when we actually
-    /// hold data for the company (<paramref name="companyHasAnyData"/>): a company we hold
-    /// nothing on is a coverage gap, left unknown rather than crowned by its own absence.
+    /// a 0–100 score. No enforcement records means a clean 100 — but only when the company is
+    /// covered (<paramref name="companyIsCovered"/>): we hold data for it and its sector's
+    /// registers. Anything else is a coverage gap, left unknown rather than crowned by its own
+    /// absence.
     /// </summary>
-    private static PillarScore ScoreViolations(IReadOnlyList<IViolationRecord> records, bool companyHasAnyData)
+    private static PillarScore ScoreViolations(IReadOnlyList<IViolationRecord> records, bool companyIsCovered)
     {
         if (records.Count == 0)
         {
-            return companyHasAnyData
+            return companyIsCovered
                 ? new PillarScore(Pillar.Violations, 100.0, ScoringConstants.ViolationsWeight,
                     "No recorded enforcement action in the open-gov registers.")
                 : new PillarScore(Pillar.Violations, null, ScoringConstants.ViolationsWeight,
-                    "No data held for this company — pillar unknown, excluded from composite.");
+                    "No enforcement register held for this company — pillar unknown, excluded from composite.");
         }
 
         var totalFineMillions = (double)records.Sum(r => r.FineGbp) / 1_000_000.0;

@@ -1,6 +1,7 @@
 using Balenthiran.WhosAccountable.Abstractions;
 using Balenthiran.WhosAccountable.Abstractions.DomainModels;
 using Balenthiran.WhosAccountable.Services.Datasets;
+using Balenthiran.WhosAccountable.Services.Scoring;
 
 namespace Balenthiran.WhosAccountable.Tests;
 
@@ -76,6 +77,20 @@ public sealed class RealCohortTests
             Assert.True(e.AbsoluteTco2e > 0);
             Assert.Null(e.IntensityTco2ePerGbpMillion);
         });
+    }
+
+    [Fact]
+    public void A_company_outside_the_held_enforcement_registers_gets_no_composite()
+    {
+        // The real cohort holds EDM returns for water companies and no enforcement register for
+        // anyone else. With intensity unknown too, a power generator has no pillar with a value,
+        // so it is listed unscored, never a clean 100 (BEH-SCORE-4, BEH-SCORE-8).
+        var dataset = Load();
+        var engine = new ScoreEngine();
+
+        Assert.Equal(new[] { Sector.WaterUtilities }, dataset.ViolationsCoverage);
+        Assert.All(dataset.Companies.Where(c => c.Sector != Sector.WaterUtilities),
+            c => Assert.Null(engine.ScoreCompany(c, dataset).Value));
     }
 
     [Fact]
