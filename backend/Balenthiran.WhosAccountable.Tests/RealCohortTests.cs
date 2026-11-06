@@ -27,26 +27,26 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(90, dataset.Companies.Count);
+        Assert.Equal(106, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
         Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
-        Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
+        Assert.Equal(48, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
     }
 
     [Theory]
-    [InlineData("heavy-industry")]
-    [InlineData("aviation")]
-    public void Every_industrials_company_carries_one_slice_tag_and_holds_only_emissions(string tag)
+    [InlineData("heavy-industry", 32)]
+    [InlineData("aviation", 16)]
+    public void Every_industrials_company_carries_one_slice_tag_and_holds_only_emissions(string tag, int count)
     {
-        // Slices 4 (heavy industry) and 5 (aircraft operators) share the Industrials sector and are
-        // told apart by their tag. Neither has an enforcement register held, so Industrials stays
-        // out of violationsCoverage and they are listed unscored.
+        // Heavy industry (slices 4 and 7) and aircraft operators (slice 5) share the Industrials
+        // sector and are told apart by their tag. Neither has an enforcement register held, so
+        // Industrials stays out of violationsCoverage and they are listed unscored.
         var dataset = Load();
         var industry = dataset.Companies.Where(c => c.Sector == Sector.Industrials).ToList();
         var slice = industry.Where(c => c.CohortTags.Contains(tag)).ToList();
 
-        Assert.Equal(16, slice.Count);
+        Assert.Equal(count, slice.Count);
         Assert.All(industry, c => Assert.Single(c.CohortTags));
         Assert.All(slice, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
         Assert.DoesNotContain(dataset.Violations, v => slice.Any(c => c.Id == v.CompanyId));
