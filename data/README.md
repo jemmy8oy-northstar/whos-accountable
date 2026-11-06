@@ -553,3 +553,61 @@ an earlier slice.
 | Jaguar Land Rover Limited | 01672070 | 3 | 79,469 |
 
 Installations counts include those with a blank 2025 cell.
+
+## US slice 1: power plant parents, EPA GHGRP (2023)
+
+**Cohort.** The 16 parent companies with the largest 2023 direct emissions at US power plants, as
+reported to the EPA's Greenhouse Gas Reporting Program (BEH-BACKLOG-1). Each has `country` US, the
+`EnergyUtilities` sector and the `power-generation` tag, as the UK's power holders do.
+
+**Why 2023.** It is the latest year the EPA has published. The data-sets page offers the 2023
+summary (released October 2024), and Envirofacts holds no 2024 facility rows as of 2026-11-06. UK
+figures stay at 2025, so each record carries its own year.
+
+**Source.**
+
+- Figures: `2023_data_summary_spreadsheets.zip`, file `ghgp_data_2023.xlsx`, sheet "Direct Point
+  Emitters", column "Total reported direct emissions" (tCO2e, AR4 GWPs). US federal data, public
+  domain. https://www.epa.gov/system/files/other-files/2024-10/2023_data_summary_spreadsheets.zip
+- Filter: "Industry Type (sectors)" includes `Power Plants`. A facility in more than one sector
+  counts whole.
+- Parents: Envirofacts table `ghg.PUB_DIM_FACILITY` for 2023, field `parent_company`, which reads
+  `NAME (60%); OTHER (40%)`. A parent's figure is its share of each facility, summed. Names are
+  matched case-insensitively, which joins one Vistra facility listed as "VISTRA CORP" (5,628 t).
+  Companies the EPA lists as their own parent are not folded into a group: Entergy Texas Inc,
+  DTE St Paul LLC and PacifiCorp stay separate from Entergy, DTE and Berkshire Hathaway.
+
+**A government is not a company.** "US Government" (Tennessee Valley Authority plants such as Cumberland and Paradise, and other
+federal plants, 38,210,394 t) would rank 8th and is left out. Lightstone Generation takes 16th.
+
+**Identifiers.** The EPA names parents with no registry number, so each was matched by hand to its
+LEI in GLEIF. Two have none: "CPN Management LP", the partnership that held Calpine's plants in 2023
+(shown as "CPN Management LP (Calpine)"), and Lightstone Generation LLC. They carry no identifier.
+
+**Reconciled.** 1,320 facilities emitted 1,490,489,022 tCO2e in 2023 under the filter, across 567
+parents. These 16 hold 658,057,652 t of it (44%). The next is Basin Electric Power Cooperative at
+18,201,330 t.
+
+**Intensity is unknown, and there are no violations.** As for the UK's emitters, these companies
+are listed without a composite.
+
+| Company | LEI | Facilities | 2023 tCO2e |
+|---|---|--:|--:|
+| Vistra Corp. | 549300KP43CPCUJOOG15 | 40 | 86,320,993 |
+| The Southern Company | 549300FC3G3YU2FBZD92 | 27 | 75,862,156 |
+| Duke Energy Corporation | I1BZKREC126H0VB1BL91 | 40 | 72,317,601 |
+| Berkshire Hathaway Inc. | 5493000C01ZX7D35SD85 | 36 | 49,404,264 |
+| American Electric Power Company, Inc. | 1B4S6S7G0TW5EE83BO58 | 25 | 48,790,616 |
+| CPN Management LP (Calpine) | none | 44 | 47,703,517 |
+| NextEra Energy, Inc. | 254900RHL9MEUS5NKX63 | 20 | 42,401,137 |
+| Entergy Corporation | 4XM3TW50JULSLG8BNC79 | 26 | 38,003,302 |
+| Xcel Energy Inc. | LGJNMI9GH8XIDG5RCM61 | 31 | 35,626,382 |
+| Dominion Energy, Inc. | ILUL7B6Z54MRYCF6H308 | 24 | 28,231,417 |
+| PPL Corporation | 9N3UAJSNOUXFKQLF3V18 | 6 | 26,771,409 |
+| Evergy, Inc. | 549300PGTHDQY6PSUI61 | 13 | 23,043,646 |
+| NRG Energy, Inc. | 5E2UPK5SW04M13XY7I38 | 16 | 22,461,424 |
+| DTE Energy Company | 549300IX8SD6XXD71I78 | 12 | 22,314,084 |
+| Ameren Corporation | XRZQ5S7HYJFPHJ78L959 | 11 | 19,669,523 |
+| Lightstone Generation LLC | none | 4 | 19,136,181 |
+
+Facilities counts include those the parent holds only a share of.

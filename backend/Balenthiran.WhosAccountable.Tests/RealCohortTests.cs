@@ -19,6 +19,9 @@ public sealed class RealCohortTests
     private const string UkEtsComplianceReport =
         "https://reports.view-emissions-trading-registry.service.gov.uk/ets-reports/section5/UK_ETS_Compliance_Report_Emissions_%26_Surrenders_2026.xlsx";
 
+    private const string EpaGhgrpSummary =
+        "https://www.epa.gov/system/files/other-files/2024-10/2023_data_summary_spreadsheets.zip";
+
     private static ICohortDataset Load() =>
         new DatasetLoader().Load(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Data", "cohort-v1.json")));
 
@@ -27,13 +30,29 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(150, dataset.Companies.Count);
+        Assert.Equal(166, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
-        Assert.Equal(38, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
+        Assert.Equal(54, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
         Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
         Assert.Equal(54, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.ConsumerGoods));
-        Assert.All(dataset.Companies, c => Assert.Equal("GB", c.Country));
+    }
+
+    [Fact]
+    public void The_cohort_is_150_uk_companies_and_16_us_power_parents()
+    {
+        // BEH-DATA-3's 150 UK companies, then US slice 1 (BEH-BACKLOG-1): the 16 largest parents
+        // at EPA GHGRP power plants.
+        var dataset = Load();
+        var us = dataset.Companies.Where(c => c.Country == "US").ToList();
+
+        Assert.Equal(150, dataset.Companies.Count(c => c.Country == "GB"));
+        Assert.Equal(16, us.Count);
+        Assert.All(us, c =>
+        {
+            Assert.Equal(Sector.EnergyUtilities, c.Sector);
+            Assert.Equal(new[] { "power-generation" }, c.CohortTags);
+        });
     }
 
     [Fact]
@@ -69,12 +88,12 @@ public sealed class RealCohortTests
     }
 
     [Theory]
-    [InlineData("power-generation", 32)]
+    [InlineData("power-generation", 48)]
     [InlineData("gas-networks", 4)]
     [InlineData("heat-and-steam", 2)]
     public void Every_energy_company_carries_one_slice_tag_and_holds_only_emissions(string tag, int count)
     {
-        // Power holders (slices 2 and 9) and slice 10's gas networks and heat and steam suppliers
+        // Power holders (slices 2 and 9, and US slice 1) and slice 10's gas networks and heat and steam suppliers
         // share the EnergyUtilities sector and are told apart by their tag.
         var dataset = Load();
         var energy = dataset.Companies.Where(c => c.Sector == Sector.EnergyUtilities).ToList();
@@ -100,20 +119,35 @@ public sealed class RealCohortTests
     }
 
     [Fact]
-    public void Every_company_is_identified_by_a_companies_house_number()
+    public void Every_uk_company_is_identified_by_a_companies_house_number()
     {
         // Eight digits for England and Wales; SC for Scotland, NI for Northern Ireland, OC for an
         // LLP, FC for an overseas company registered here because it has a UK establishment.
-        var numbers = Load().Companies.Select(c => c.CompaniesHouseNumber).ToList();
+        var numbers = Load().Companies.Where(c => c.Country == "GB").Select(c => c.CompaniesHouseNumber).ToList();
 
         Assert.All(numbers, n => Assert.Matches("^([0-9]{8}|(SC|NI|OC|FC)[0-9]{6})$", n));
         Assert.Equal(numbers.Count, numbers.Distinct().Count());
     }
 
     [Fact]
+    public void Every_us_company_is_identified_by_an_lei_except_the_two_gleif_does_not_hold()
+    {
+        // The EPA names parents without a registry number, so each was matched to GLEIF by hand.
+        // Calpine's holding partnership and Lightstone Generation have no LEI (data/README.md).
+        var us = Load().Companies.Where(c => c.Country == "US").ToList();
+        var withLei = us.Where(c => c.Lei is not null).ToList();
+
+        Assert.Equal(["calpine", "lightstone-generation"], us.Where(c => c.Lei is null).Select(c => c.Id).Order());
+        Assert.All(withLei, c => Assert.Matches("^[A-Z0-9]{18}[0-9]{2}$", c.Lei));
+        Assert.Equal(withLei.Count, withLei.Select(c => c.Lei).Distinct().Count());
+        Assert.All(us, c => Assert.Null(c.CompaniesHouseNumber));
+    }
+
+    [Fact]
     public void Every_record_links_to_its_published_source_with_a_retrieval_date()
     {
         var dataset = Load();
+        var country = dataset.Companies.ToDictionary(c => c.Id, c => c.Country);
 
         Assert.All(dataset.Violations, v =>
         {
@@ -123,8 +157,11 @@ public sealed class RealCohortTests
         });
         Assert.All(dataset.Emissions, e =>
         {
-            Assert.Equal(SourceKind.UkEtsRegistry, e.Source.Kind);
-            Assert.Equal(UkEtsComplianceReport, e.Source.Url);
+            var (kind, url) = country[e.CompanyId] == "US"
+                ? (SourceKind.EpaGhgrp, EpaGhgrpSummary)
+                : (SourceKind.UkEtsRegistry, UkEtsComplianceReport);
+            Assert.Equal(kind, e.Source.Kind);
+            Assert.Equal(url, e.Source.Url);
             Assert.True(e.Source.RetrievedOn >= new DateOnly(2026, 1, 1));
         });
     }
@@ -135,13 +172,16 @@ public sealed class RealCohortTests
         // Revenue is not a like-for-like denominator for a single power station: a tolled plant's
         // revenue is a fee for being available, so its intensity measures the contract, not the
         // carbon. Intensity stays unknown until the scale is calibrated (data/README.md, slice 2).
-        // Slice 3's oil and gas holders and slice 4's heavy industry are on the same terms.
-        var emissions = Load().Emissions;
+        // Slice 3's oil and gas holders and slice 4's heavy industry are on the same terms. Each
+        // figure keeps its source's latest year: 2025 for the UK ETS, 2023 for the EPA GHGRP.
+        var dataset = Load();
+        var country = dataset.Companies.ToDictionary(c => c.Id, c => c.Country);
+        var emissions = dataset.Emissions;
 
         Assert.All(emissions.GroupBy(e => e.CompanyId), g => Assert.Single(g));
         Assert.All(emissions, e =>
         {
-            Assert.Equal(2025, e.Year);
+            Assert.Equal(country[e.CompanyId] == "US" ? 2023 : 2025, e.Year);
             Assert.True(e.AbsoluteTco2e > 0);
             Assert.Null(e.IntensityTco2ePerGbpMillion);
         });

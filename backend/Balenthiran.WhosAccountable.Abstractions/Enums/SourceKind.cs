@@ -18,4 +18,7 @@ public enum SourceKind
 
     /// <summary>Event Duration Monitoring — storm-overflow / sewage discharge data. Open Government Licence.</summary>
     EventDurationMonitoring,
+
+    /// <summary>US EPA Greenhouse Gas Reporting Program — reported direct emissions per facility. US federal data, public domain.</summary>
+    EpaGhgrp,
 }
