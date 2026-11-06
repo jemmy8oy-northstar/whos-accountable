@@ -107,6 +107,15 @@ public sealed class ScoreEngineTests
     }
 
     [Fact]
+    public void A_null_coverage_field_in_the_json_covers_no_sector()
+    {
+        var dataset = new DatasetLoader().Load(
+            """{ "violationsCoverage": null, "companies": [], "emissions": [], "violations": [] }""");
+
+        Assert.Empty(dataset.ViolationsCoverage);
+    }
+
+    [Fact]
     public void More_enforcement_harm_yields_a_lower_violations_score()
     {
         var light = Fixtures.Company("light");

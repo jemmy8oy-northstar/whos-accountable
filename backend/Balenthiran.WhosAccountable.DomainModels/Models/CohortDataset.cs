@@ -25,6 +25,12 @@ public sealed record CohortDataset(
     IReadOnlyList<IEmissionsRecord> ICohortDataset.Emissions => Emissions;
     IReadOnlyList<IViolationRecord> ICohortDataset.Violations => Violations;
 
-    /// <summary>Absent from the JSON means no sector is covered: a missing field never crowns anyone.</summary>
-    public IReadOnlyList<Sector> ViolationsCoverage { get; init; } = [];
+    /// <summary>Absent or null in the JSON means no sector is covered: a missing field never crowns anyone.</summary>
+    public IReadOnlyList<Sector> ViolationsCoverage
+    {
+        get => _violationsCoverage;
+        init => _violationsCoverage = value ?? [];
+    }
+
+    private readonly IReadOnlyList<Sector> _violationsCoverage = [];
 }
