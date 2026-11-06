@@ -27,11 +27,11 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(138, dataset.Companies.Count);
+        Assert.Equal(150, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
-        Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
+        Assert.Equal(38, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
         Assert.Equal(32, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
-        Assert.Equal(48, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
+        Assert.Equal(54, dataset.Companies.Count(c => c.Sector == Sector.Industrials));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.ConsumerGoods));
     }
 
@@ -49,12 +49,13 @@ public sealed class RealCohortTests
     }
 
     [Theory]
-    [InlineData("heavy-industry", 32)]
+    [InlineData("heavy-industry", 36)]
     [InlineData("aviation", 16)]
+    [InlineData("manufacturing", 2)]
     public void Every_industrials_company_carries_one_slice_tag_and_holds_only_emissions(string tag, int count)
     {
-        // Heavy industry (slices 4 and 7) and aircraft operators (slice 5) share the Industrials
-        // sector and are told apart by their tag. Neither has an enforcement register held, so
+        // Heavy industry (slices 4 and 7, and four of slice 10), aircraft operators (slice 5) and
+        // slice 10's two manufacturers share the Industrials sector and are told apart by their tag. Neither has an enforcement register held, so
         // Industrials stays out of violationsCoverage and they are listed unscored.
         var dataset = Load();
         var industry = dataset.Companies.Where(c => c.Sector == Sector.Industrials).ToList();
@@ -64,6 +65,23 @@ public sealed class RealCohortTests
         Assert.All(industry, c => Assert.Single(c.CohortTags));
         Assert.All(slice, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
         Assert.DoesNotContain(dataset.Violations, v => slice.Any(c => c.Id == v.CompanyId));
+    }
+
+    [Theory]
+    [InlineData("power-generation", 32)]
+    [InlineData("gas-networks", 4)]
+    [InlineData("heat-and-steam", 2)]
+    public void Every_energy_company_carries_one_slice_tag_and_holds_only_emissions(string tag, int count)
+    {
+        // Power holders (slices 2 and 9) and slice 10's gas networks and heat and steam suppliers
+        // share the EnergyUtilities sector and are told apart by their tag.
+        var dataset = Load();
+        var energy = dataset.Companies.Where(c => c.Sector == Sector.EnergyUtilities).ToList();
+        var slice = energy.Where(c => c.CohortTags.Contains(tag)).ToList();
+
+        Assert.Equal(count, slice.Count);
+        Assert.All(energy, c => Assert.Single(c.CohortTags));
+        Assert.All(slice, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
     }
 
     [Fact]

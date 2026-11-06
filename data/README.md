@@ -494,3 +494,62 @@ now holds 29,850,929 t of it (99%). No Companies House number is in an earlier s
 
 Installations counts include those with a blank 2025 cell, and the three Equans installations are
 counted as one, the one in the filter.
+
+## v1, slice 10: the largest holders outside every earlier filter (2025)
+
+**Cohort.** The 12 UK ETS account holders with the largest 2025 verified emissions among those
+holding at least one installation that no earlier slice's filter covers, each counted whole. This
+brings the cohort to 150, the "about 150" DATA-3 asks for. Holders already in the cohort are left
+out: Tata Steel (its Corby tubeworks, 2420) and Equans FM (its chemicals and district heating
+sites) would otherwise rank 2nd and 5th. Each is identified by the Companies House number of the
+account holder named in the registry.
+
+**Sector and tag, by what each one does.** No single sector fits a mixed slice, so each holder takes
+the nearest existing one and a tag:
+
+- `EnergyUtilities`, `gas-networks`: the South Hook LNG import terminal (3521), and three gas
+  transmission holders (3522): National Gas Transmission's 21 compressor stations, GNI (UK)'s two
+  in south-west Scotland and the Interconnector's Bacton terminal.
+- `EnergyUtilities`, `heat-and-steam` (3530): INEOS Infrastructure, whose one installation is
+  "Grangemouth Infrastructure", and Bring Energy (Humber Energy, and the Battersea energy centre).
+- `Industrials`, `heavy-industry`, as slices 4 and 7: Encirc (glass), Kronospan (wood panels),
+  INEOS Acetyls (chemicals) and Sellafield (processing of nuclear fuel, NACE 2446).
+- `Industrials`, `manufacturing`, a new tag: Rolls-Royce (aero engines) and Jaguar Land Rover.
+
+**Encirc.** Slice 7 left Encirc just outside its filter and said a later slice could take it on its
+whole total. This is that slice: 277,475 t, its Northern Ireland glassworks and its English site
+together. The company was renamed "Vidrala UK & Ireland Limited" on 27 October 2026, so it shows
+under that name with the former one in brackets, as for British Steel. Its id is `encirc`.
+
+**Source.** The same compliance report as slices 2 to 9, retrieved 2026-11-05.
+
+- Filter: `Account type` = `OPERATOR_HOLDING_ACCOUNT`, and the holder has an installation whose
+  `NACE` is outside slice 2's (3511), slice 3's (610, 620, 1920), slice 4's (listed there) and
+  slice 8's (10xx, 11xx).
+- Figure: "Recorded emissions 2025", summed over all the holder's installations. Two have a blank
+  2025 cell and count as zero: National Gas Transmission's Warrington compressor station and Bring
+  Energy's Battersea Power Station energy centre.
+
+**Reconciled.** 166 holders meet the filter and emitted 4,042,951 tCO2e in 2025, counted whole.
+Without Tata Steel and Equans FM, 164 hold 3,581,445 t, and these 12 hold 1,756,284 t of it (49%).
+The next is Dragon LNG at 78,465 t, 1,004 t below Jaguar Land Rover. No Companies House number is in
+an earlier slice.
+
+**Intensity is unknown, and there are no violations yet, as in slices 2 to 9.**
+
+| Company | CH number | Installations | 2025 tCO2e |
+|---|---|--:|--:|
+| INEOS Infrastructure (Grangemouth) Limited | 06981874 | 1 | 345,338 |
+| Vidrala UK & Ireland Limited (formerly Encirc Limited) | NI030990 | 2 | 277,475 |
+| South Hook LNG Terminal Company Ltd | 04982132 | 1 | 175,529 |
+| National Gas Transmission plc | 02006000 | 21 | 145,121 |
+| Kronospan Limited | 00981905 | 1 | 139,553 |
+| Sellafield Limited | 01002607 | 1 | 133,754 |
+| INEOS Acetyls UK Limited | 09925357 | 1 | 107,961 |
+| GNI (UK) Limited | 02827969 | 2 | 99,001 |
+| Rolls-Royce plc | 01003142 | 2 | 87,793 |
+| Bring Energy Limited | 01506399 | 2 | 83,867 |
+| Interconnector Limited | 02989838 | 1 | 81,423 |
+| Jaguar Land Rover Limited | 01672070 | 3 | 79,469 |
+
+Installations counts include those with a blank 2025 cell.
