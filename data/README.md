@@ -156,7 +156,7 @@ scale saturates on real emitters anyway (BEH-SCORE-8). These companies are liste
 emissions score or a composite until the scale is set on real data.
 
 **No violations yet.** OPRED and EA enforcement records for these sites are a later source.
-A company with no violations record has an unknown violations pillar, not a clean one.
+`OilAndGas` is not in `violationsCoverage`, so the violations pillar is unknown, not a clean 100.
 
 | Company | CH number | Installations | 2025 tCO2e |
 |---|---|--:|--:|

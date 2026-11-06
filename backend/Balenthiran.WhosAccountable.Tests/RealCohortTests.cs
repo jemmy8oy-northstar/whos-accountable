@@ -37,7 +37,7 @@ public sealed class RealCohortTests
     public void Every_oil_and_gas_company_is_tagged_and_holds_only_emissions()
     {
         // Slice 3 has no violations source yet: OPRED and EA enforcement for these sites is a later
-        // slice, so an oil and gas company must not appear clean on violations by having a record.
+        // slice. OilAndGas stays out of violationsCoverage until it lands, so these are unscored.
         var dataset = Load();
         var oilAndGas = dataset.Companies.Where(c => c.Sector == Sector.OilAndGas).ToList();
 
