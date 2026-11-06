@@ -345,3 +345,48 @@ Companies House number is in an earlier slice.
 | Dana Petroleum (E&P) Limited | 02294746 | 2 | 108,314 |
 
 Installations counts include those with a blank 2025 cell.
+
+## v1, slice 7: heavy industry, the next 16 holders (2025)
+
+**Cohort.** The UK ETS account holders ranked 17 to 32 by 2025 verified emissions under slice 4's
+filter: paper, glass, lime, bricks, plaster, insulation, chemicals and steel. Slice 4 took ranks 1
+to 16. They take the `Industrials` sector and the `heavy-industry` tag, as slice 4 does. Each is
+identified by the Companies House number of the account holder named in the registry. Every name
+the registry uses is still the company's current name.
+
+**Encirc is just outside, because of how one site is classed.** Encirc Limited ranks 33 under the
+filter, with 82,328 t at its Northern Ireland glassworks. Its English installation, "Encirc Glass", emitted
+195,147 t but is classed `3299` (other manufacturing), which the filter does not include. Counted
+whole, at 277,475 t, Encirc would rank 12th. The rule is kept as written rather than bent for one holder,
+and a later slice can take Encirc on its whole total.
+
+**Source and filter.** The same compliance report and filter as slice 4, retrieved 2026-11-05. Two
+installations have a blank 2025 cell and count as zero: Pilkington's Watson Street works and
+Essity's Tawd Mill.
+
+**Reconciled.** These 16 hold 1,932,728 t of the filter's 14,580,928 t. With slice 4, the cohort
+now holds 13,206,205 t of it (91%). None of the 16 holds an installation outside the filter, and no
+Companies House number is in an earlier slice.
+
+**Intensity is unknown, and there are no violations yet, as in slice 4.**
+
+| Company | CH number | Installations | 2025 tCO2e |
+|---|---|--:|--:|
+| SAICA Paper UK Limited | 06569569 | 1 | 163,253 |
+| Lhoist UK Limited | 04056154 | 1 | 162,350 |
+| Palm Paper Limited | 00813701 | 1 | 158,890 |
+| BOC Limited | 00337663 | 1 | 157,114 |
+| Smurfit Westrock UK Ltd | 01017013 | 2 | 139,514 |
+| Dow Silicones UK Limited | 00486170 | 1 | 131,368 |
+| Pilkington United Kingdom Limited | 01417048 | 2 | 131,359 |
+| Tronox Pigment UK Limited | 00162303 | 1 | 128,543 |
+| Ibstock Brick Limited | 00063230 | 5 | 113,483 |
+| Essity UK Limited | 03226403 | 5 | 104,662 |
+| Guardian Industries U.K. Limited | 04139456 | 1 | 96,985 |
+| Saint-Gobain Glass (United Kingdom) Limited | 02442570 | 1 | 93,163 |
+| Etex Building Performance Limited | 02163844 | 2 | 90,830 |
+| 7 Steel Manufacturing (UK) Limited | 04577881 | 3 | 89,259 |
+| Knauf Insulation Limited | 01926842 | 3 | 86,219 |
+| O-I Glass Limited | 00526983 | 2 | 85,736 |
+
+Installations counts include those with a blank 2025 cell.
