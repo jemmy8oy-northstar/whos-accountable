@@ -44,7 +44,7 @@ discussion).
 |---|---|---|---|
 | Emissions | UK ETS registry; SECR disclosures in annual reports; CDP responses | Verified absolute emissions; intensity | ETS: open data. SECR: unstructured (defer full extraction). CDP: **audited 2026-07-06 — restricted**, link-only in v1 (see below) |
 | Trajectory | SBTi target dashboard; company net-zero commitments | Has a real target? Validated? On track? | SBTi: **audited — citation-with-attribution OK, composite use needs permission**; signals-only in v1 (see below) |
-| Violations | EA enforcement/prosecution records; Ofwat penalties; sewage Event Duration Monitoring data | Fines £, incident counts, discharge hours | Open government data (OGL) — the strongest, most UK-specific pillar |
+| Violations | EA enforcement/prosecution records; Ofwat penalties; sewage Event Duration Monitoring data | Fines £, incident counts, discharge hours | Open government data — the strongest, most UK-specific pillar. EDM is OGL; the EA enforcement public register is under the EA conditional licence (commercial use allowed, with the attribution "Contains Environment Agency information © Environment Agency and/or database right") |
 | Obstruction | InfluenceMap climate lobbying grades | Lobbying for/against climate policy | InfluenceMap: **audited — citation-with-attribution OK, composite use restricted**; signals-only in v1 (see below) |
 
 ### License audit outcome (2026-07-06, issue #9)
