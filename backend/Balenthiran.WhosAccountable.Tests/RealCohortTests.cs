@@ -27,9 +27,23 @@ public sealed class RealCohortTests
     {
         var dataset = Load();
 
-        Assert.Equal(26, dataset.Companies.Count);
+        Assert.Equal(42, dataset.Companies.Count);
         Assert.Equal(10, dataset.Companies.Count(c => c.Sector == Sector.WaterUtilities));
         Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.EnergyUtilities));
+        Assert.Equal(16, dataset.Companies.Count(c => c.Sector == Sector.OilAndGas));
+    }
+
+    [Fact]
+    public void Every_oil_and_gas_company_is_tagged_and_holds_only_emissions()
+    {
+        // Slice 3 has no violations source yet: OPRED and EA enforcement for these sites is a later
+        // slice, so an oil and gas company must not appear clean on violations by having a record.
+        var dataset = Load();
+        var oilAndGas = dataset.Companies.Where(c => c.Sector == Sector.OilAndGas).ToList();
+
+        Assert.All(oilAndGas, c => Assert.Equal(new[] { "oil-and-gas" }, c.CohortTags));
+        Assert.All(oilAndGas, c => Assert.Single(dataset.Emissions, e => e.CompanyId == c.Id));
+        Assert.DoesNotContain(dataset.Violations, v => oilAndGas.Any(c => c.Id == v.CompanyId));
     }
 
     [Fact]
@@ -63,11 +77,12 @@ public sealed class RealCohortTests
     }
 
     [Fact]
-    public void Each_power_generator_holds_one_year_of_verified_emissions_and_no_intensity()
+    public void Each_emitter_holds_one_year_of_verified_emissions_and_no_intensity()
     {
         // Revenue is not a like-for-like denominator for a single power station: a tolled plant's
         // revenue is a fee for being available, so its intensity measures the contract, not the
         // carbon. Intensity stays unknown until the scale is calibrated (data/README.md, slice 2).
+        // Slice 3's oil and gas holders are on the same terms (data/README.md, slice 3).
         var emissions = Load().Emissions;
 
         Assert.All(emissions.GroupBy(e => e.CompanyId), g => Assert.Single(g));
